@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carlo Daneloni — International Business &amp; Strategy</title>
+  <meta name="description" content="Carlo Daneloni — International Business & Strategy. First Class Honours at Greenwich, MSc at Imperial College London." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <meta property="og:title" content="Carlo Daneloni — International Business &amp; Strategy" />
+  <meta property="og:description" content="First Class Honours at Greenwich. MSc at Imperial College London. Strategy, consulting, and building things from scratch." />
+  <meta property="og:image" content="og-image.jpg" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <!-- Leaflet for the map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    /* ==========================================================
+       APPLE-STYLE LIGHT DESIGN SYSTEM
+    ========================================================== */
+    :root {
+      --bg:            #fbfbfd;
+      --bg-alt:        #f5f5f7;
+      --surface:       #ffffff;
+      --text:          #1d1d1f;
+      --muted:         #6e6e73;
+      --faint:         #86868b;
+      --hairline:      rgba(0,0,0,0.08);
+      --hairline-2:    rgba(0,0,0,0.12);
+      --accent:        #0071e3;
+      --accent-hover:  #0077ed;
+      --accent-deep:   #0058b0;
+      --accent-tint:   rgba(0,113,227,0.08);
+      --grad:          linear-gradient(100deg, #0071e3 0%, #5e5ce6 55%, #bf5af2 100%);
+      --grad-soft:     linear-gradient(135deg, rgba(0,113,227,0.10), rgba(94,92,230,0.08), rgba(191,90,242,0.08));
+      --shadow-sm:     0 2px 12px rgba(0,0,0,0.05);
+      --shadow-md:     0 8px 30px rgba(0,0,0,0.08);
+      --shadow-lg:     0 24px 60px rgba(0,0,0,0.12);
+      --radius:        18px;
+      --radius-sm:     12px;
+      --max-w:         980px;
+      --nav-h:         52px;
+      --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 16px); }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    ul { list-style: none; }
+    ::selection { background: rgba(0,113,227,0.18); }
+
+    /* ==========================================================
+       SCROLL PROGRESS
+    ========================================================== */
+    #progress {
+      position: fixed; top: 0; left: 0;
+      height: 3px; width: 0%;
+      background: var(--grad);
+      z-index: 300;
+      border-radius: 0 2px 2px 0;
+      transition: width 0.08s linear;
+    }
+
+    /* ==========================================================
+       NAVIGATION — frosted glass
+    ========================================================== */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      height: var(--nav-h);
+      background: rgba(251,251,253,0.72);
+      backdrop-filter: saturate(180%) blur(20px);
+      -webkit-backdrop-filter: saturate(180%) blur(20px);
+      border-bottom: 1px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(1.2rem, 4vw, 2.5rem);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    nav.scrolled { border-bottom-color: var(--hairline); background: rgba(251,251,253,0.85); }
+    .nav-logo {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    .nav-links { display: flex; gap: 1.7rem; align-items: center; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--text); }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff !important;
+      padding: 0.34rem 1rem;
+      border-radius: 980px;
+      font-size: 0.78rem !important;
+      font-weight: 500;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .nav-cta:hover { background: var(--accent-hover); transform: scale(1.03); }
+    .nav-kbd {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.72rem;
+      color: var(--faint);
+      border: 1px solid var(--hairline-2);
+      border-radius: 8px;
+      padding: 0.22rem 0.55rem;
+      cursor: pointer;
+      background: rgba(255,255,255,0.6);
+      transition: border-color 0.2s, color 0.2s;
+      font-family: var(--font);
+    }
+    .nav-kbd:hover { border-color: var(--accent); color: var(--accent); }
+    .nav-kbd kbd {
+      font-family: var(--font);
+      font-size: 0.72rem;
+    }
+    .nav-burger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+    }
+    .nav-burger span { width: 20px; height: 1.5px; background: var(--text); border-radius: 2px; transition: transform 0.25s, opacity 0.25s; }
+    .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      background: rgba(251,251,253,0.97);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--hairline);
+      padding: 1.2rem 1.8rem 1.6rem;
+      z-index: 199;
+      flex-direction: column;
+      gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      padding: 0.85rem 0;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+
+    /* ==========================================================
+       SECTION UTILITIES
+    ========================================================== */
+    section { padding: 7rem clamp(1.2rem, 5vw, 3rem); }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-size: clamp(2rem, 4.5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: var(--text);
+      line-height: 1.12;
+      margin-bottom: 1.1rem;
+    }
+    .section-intro {
+      font-size: 1.06rem;
+      color: var(--muted);
+      max-width: 620px;
+      line-height: 1.7;
+      font-weight: 400;
+    }
+
+    /* ==========================================================
+       REVEAL ANIMATIONS
+    ========================================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.d1 { transition-delay: 0.08s; }
+    .reveal.d2 { transition-delay: 0.16s; }
+    .reveal.d3 { transition-delay: 0.24s; }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      html { scroll-behavior: auto; }
+    }
+
+    /* ==========================================================
+       HERO
+    ========================================================== */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+      max-width: 1180px;
+      margin: 0 auto;
+      padding-top: calc(var(--nav-h) + 4rem);
+      padding-bottom: 4rem;
+      position: relative;
+    }
+    /* soft ambient gradient behind hero */
+    .hero-ambient {
+      position: absolute;
+      top: 8%; left: -10%;
+      width: 60vw; height: 60vw;
+      max-width: 760px; max-height: 760px;
+      background: radial-gradient(circle at 30% 30%, rgba(0,113,227,0.10), rgba(94,92,230,0.06) 45%, transparent 70%);
+      filter: blur(40px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+    }
+    .hero-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--faint); display: inline-block; }
+    .hero-name {
+      font-size: clamp(2.7rem, 6vw, 4.6rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.06;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .hero-name .grad {
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    /* typing rotator */
+    .hero-rotator {
+      font-size: clamp(1.05rem, 2vw, 1.3rem);
+      font-weight: 500;
+      color: var(--muted);
+      min-height: 1.8em;
+      margin-bottom: 1.3rem;
+      letter-spacing: -0.01em;
+    }
+    .hero-rotator .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.05em;
+      background: var(--accent);
+      vertical-align: text-bottom;
+      margin-left: 2px;
+      animation: blink 1.05s steps(1) infinite;
+      border-radius: 1px;
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    .hero-desc {
+      font-size: 1.02rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.6rem;
+      max-width: 470px;
+    }
+    .hero-quote {
+      border-left: 3px solid;
+      border-image: var(--grad) 1;
+      padding: 0.4rem 0 0.4rem 1.2rem;
+      margin-bottom: 2.4rem;
+      max-width: 470px;
+    }
+    .hero-quote p {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text);
+      font-weight: 400;
+      line-height: 1.6;
+    }
+    .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.78rem 1.7rem;
+      border-radius: 980px;
+      transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,113,227,0.28); }
+    .btn-link {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: gap 0.2s;
+    }
+    .btn-link:hover { gap: 0.6rem; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--bg-alt);
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.78rem 1.7rem;
+      border-radius: 980px;
+      border: 1px solid var(--hairline);
+      transition: background 0.2s, transform 0.15s, border-color 0.2s;
+    }
+    .btn-secondary:hover { background: #ececef; transform: translateY(-1px); border-color: var(--hairline-2); }
+
+    /* hero photo */
+    .hero-photo-wrap {
+      position: relative;
+      justify-self: end;
+      width: 100%;
+      max-width: 430px;
+    }
+    .hero-photo-glow {
+      position: absolute;
+      inset: -8%;
+      background: var(--grad);
+      opacity: 0.16;
+      filter: blur(48px);
+      border-radius: 40px;
+      z-index: 0;
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.13; transform: scale(0.98); }
+      50%      { opacity: 0.22; transform: scale(1.02); }
+    }
+    .hero-photo {
+      position: relative;
+      z-index: 1;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      aspect-ratio: 4/5;
+      background: var(--bg-alt);
+      transform: translateZ(0);
+    }
+    .hero-photo img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 6s ease;
+    }
+    .hero-photo:hover img { transform: scale(1.04); }
+    @keyframes heroPhotoIn {
+      from { opacity: 0; transform: scale(0.95) translateY(18px); }
+      to   { opacity: 1; transform: none; }
+    }
+    .hero-photo-wrap.visible .hero-photo { animation: heroPhotoIn 1s cubic-bezier(0.22,1,0.36,1) both; }
+    /* floating chips on the photo */
+    .float-chip {
+      position: absolute;
+      z-index: 2;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.7);
+      box-shadow: var(--shadow-md);
+      border-radius: 14px;
+      padding: 0.6rem 0.9rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      animation: floaty 5.5s ease-in-out infinite;
+    }
+    .float-chip .sub { display: block; font-size: 0.66rem; font-weight: 500; color: var(--muted); }
+    .float-chip.c1 { top: 7%; left: -9%; animation-delay: 0s; }
+    .float-chip.c2 { bottom: 16%; right: -7%; animation-delay: 1.6s; }
+    .float-chip.c3 { bottom: -4%; left: 6%; animation-delay: 3s; }
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-9px); }
+    }
+    .scroll-hint {
+      position: absolute;
+      bottom: 1.6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--faint);
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+      opacity: 0.8;
+    }
+    .scroll-hint::after {
+      content: '';
+      width: 1px; height: 34px;
+      background: linear-gradient(to bottom, var(--faint), transparent);
+      animation: dropLine 2s ease-in-out infinite;
+    }
+    @keyframes dropLine {
+      0% { transform: scaleY(0); transform-origin: top; }
+      45% { transform: scaleY(1); transform-origin: top; }
+      55% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ==========================================================
+       STATS STRIP
+    ========================================================== */
+    #stats { padding: 0 clamp(1.2rem, 5vw, 3rem) 5rem; }
+    .stats-grid {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      padding: 1.7rem 1.4rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s, box-shadow 0.25s;
+    }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .stat-num {
+      font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.15;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; font-weight: 500; }
+
+    /* ==========================================================
+       ABOUT
+    ========================================================== */
+    #about { background: var(--surface); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 3.5rem;
+      align-items: start;
+      margin-top: 2.5rem;
+    }
+    .about-text p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 1.15rem;
+      font-weight: 400;
+    }
+    .about-text p:last-of-type { margin-bottom: 0; }
+    .about-sidebar { display: flex; flex-direction: column; gap: 1.1rem; }
+    .about-card {
+      background: var(--bg);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .about-card h4 {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .lang-list { display: flex; flex-direction: column; gap: 0.75rem; }
+    .lang-item { display: flex; justify-content: space-between; align-items: center; }
+    .lang-name { font-size: 0.92rem; font-weight: 500; color: var(--text); }
+    .lang-level {
+      font-size: 0.74rem;
+      color: var(--muted);
+      background: var(--bg-alt);
+      border: 1px solid var(--hairline);
+      padding: 0.18rem 0.66rem;
+      border-radius: 980px;
+      font-weight: 500;
+    }
+    .interest-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .interest-tag {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--text);
+      background: var(--bg-alt);
+      border: 1px solid var(--hairline);
+      padding: 0.3rem 0.75rem;
+      border-radius: 980px;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+    .interest-tag:hover { background: var(--accent-tint); border-color: rgba(0,113,227,0.3); color: var(--accent-deep); }
+    .about-photo { padding: 0; overflow: hidden; }
+    .about-photo img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: center 28%;
+      cursor: zoom-in;
+      transition: transform 0.4s ease;
+    }
+    .about-photo img:hover { transform: scale(1.03); }
+    .about-photo-caption {
+      padding: 0.7rem 1.1rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+      border-top: 1px solid var(--hairline);
+      background: var(--surface);
+    }
+    .current-badge {
+      background: var(--grad-soft);
+      border: 1px solid rgba(0,113,227,0.18);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .current-badge strong { font-weight: 600; }
+    .current-badge .badge-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 0.5rem;
+    }
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: #30d158;
+      display: inline-block;
+      box-shadow: 0 0 0 0 rgba(48,209,88,0.5);
+      animation: pulseDot 2s infinite;
+    }
+    @keyframes pulseDot {
+      0% { box-shadow: 0 0 0 0 rgba(48,209,88,0.45); }
+      70% { box-shadow: 0 0 0 8px rgba(48,209,88,0); }
+      100% { box-shadow: 0 0 0 0 rgba(48,209,88,0); }
+    }
+    .map-wrap {
+      margin-top: 2.2rem;
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--hairline);
+      box-shadow: var(--shadow-md);
+    }
+    #arezzo-map { height: 240px; width: 100%; display: block; z-index: 1; }
+    .map-label {
+      background: var(--surface);
+      border-top: 1px solid var(--hairline);
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* ==========================================================
+       EXPERIENCE TIMELINE
+    ========================================================== */
+    #experience { background: var(--bg-alt); }
+    .timeline { display: flex; flex-direction: column; position: relative; margin-top: 2.8rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 11px;
+      top: 24px;
+      bottom: 24px;
+      width: 2px;
+      background: linear-gradient(to bottom, rgba(0,113,227,0.35), rgba(94,92,230,0.2), var(--hairline));
+      border-radius: 2px;
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      gap: 1.5rem;
+      padding-bottom: 2.2rem;
+      position: relative;
+    }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--hairline-2);
+      flex-shrink: 0;
+      margin-top: 6px;
+      z-index: 1;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .timeline-item:hover .timeline-dot { border-color: var(--accent); transform: scale(1.1); }
+    .timeline-dot.current {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 6px rgba(0,113,227,0.12);
+    }
+    .timeline-content {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.8rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .timeline-item:hover .timeline-content {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(0,113,227,0.2);
+    }
+    .timeline-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .timeline-role { font-size: 1.08rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text); }
+    .timeline-date {
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: var(--accent);
+      background: var(--accent-tint);
+      padding: 0.24rem 0.72rem;
+      border-radius: 980px;
+      white-space: nowrap;
+    }
+    .timeline-company { font-size: 0.86rem; font-weight: 500; color: var(--muted); margin-bottom: 0.8rem; }
+    .timeline-body { font-size: 0.93rem; color: var(--text); line-height: 1.75; }
+    .timeline-body p { margin-bottom: 0.6rem; }
+    .timeline-body p:last-child { margin-bottom: 0; }
+    .timeline-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .timeline-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--accent-deep);
+      background: var(--accent-tint);
+      padding: 0.2rem 0.62rem;
+      border-radius: 980px;
+    }
+
+    /* ==========================================================
+       EDUCATION
+    ========================================================== */
+    #education { background: var(--surface); border-top: 1px solid var(--hairline); border-bottom: 1px solid var(--hairline); }
+    .edu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.8rem;
+    }
+    .edu-card {
+      background: var(--bg);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      padding: 1.7rem 1.8rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .edu-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(0,113,227,0.2); }
+    .edu-card.featured { background: var(--grad-soft); border-color: rgba(0,113,227,0.22); }
+    .edu-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.7rem;
+      display: block;
+    }
+    .edu-school { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.25rem; }
+    .edu-degree { font-size: 0.92rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
+    .edu-date { font-size: 0.78rem; color: var(--faint); margin-bottom: 0.85rem; }
+    .edu-note { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+
+    /* ==========================================================
+       ACHIEVEMENTS
+    ========================================================== */
+    #achievements { background: var(--bg-alt); }
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.8rem;
+    }
+    .award-card {
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s, box-shadow 0.25s;
+      will-change: transform;
+    }
+    .award-card:hover { box-shadow: var(--shadow-md); }
+    .award-icon { font-size: 1.8rem; margin-bottom: 0.85rem; }
+    .award-title { font-size: 1.05rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text); margin-bottom: 0.3rem; line-height: 1.35; }
+    .award-org { font-size: 0.79rem; color: var(--accent); font-weight: 500; margin-bottom: 0.3rem; }
+    .award-date { font-size: 0.72rem; color: var(--faint); margin-bottom: 0.6rem; }
+    .award-body { font-size: 0.86rem; color: var(--muted); line-height: 1.68; flex: 1; }
+    .award-photo {
+      margin-top: 1.1rem;
+      border-radius: var(--radius-sm);
+      height: 210px;
+      background: var(--bg-alt);
+      border: 1.5px dashed var(--hairline-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.3rem;
+      font-size: 0.74rem;
+      color: var(--faint);
+      text-align: center;
+    }
+    .award-photo-label {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-top: 0.15rem;
+    }
+    .award-photo.real {
+      padding: 0; border: none;
+      overflow: hidden;
+      cursor: zoom-in;
+      position: relative;
+    }
+    .award-photo.real img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      transition: transform 0.4s ease;
+    }
+    .award-photo.real:hover img { transform: scale(1.05); }
+    .award-photo.real::after {
+      content: '⤢';
+      position: absolute;
+      right: 10px; bottom: 8px;
+      width: 28px; height: 28px;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      color: var(--text);
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+    .award-photo.real:hover::after { opacity: 1; }
+    /* multi-photo gallery inside an award card */
+    .award-gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 1.1rem;
+    }
+    .award-gallery .g-item {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      height: 105px;
+      cursor: zoom-in;
+      background: var(--bg-alt);
+    }
+    .award-gallery .g-item img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+    .award-gallery .g-item:hover img { transform: scale(1.06); }
+    .award-gallery.two .g-item { height: 210px; }
+
+    /* ==========================================================
+       PROJECTS
+    ========================================================== */
+    #projects { background: var(--surface); border-top: 1px solid var(--hairline); }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+      margin-top: 2.8rem;
+    }
+    .project-card {
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      background: var(--bg);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+      will-change: transform;
+    }
+    .project-card:hover { box-shadow: var(--shadow-md); border-color: rgba(0,113,227,0.2); }
+    .project-card.featured {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+    }
+    .project-img {
+      background: var(--grad-soft);
+      min-height: 210px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+      text-align: center;
+      padding: 1.5rem;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .project-img svg { opacity: 0.45; color: var(--accent); }
+    .project-img.real { padding: 0; background: #fff; }
+    .project-img.real img {
+      width: 100%; height: 100%;
+      object-fit: contain;
+      padding: 2.2rem;
+    }
+    .project-img.real.photo img {
+      object-fit: cover;
+      object-position: center 22%;
+      padding: 0;
+      max-height: 300px;
+    }
+    .project-img-label {
+      font-size: 0.64rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .project-body { padding: 1.7rem 1.9rem; }
+    .project-type {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .project-title { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 0.55rem; line-height: 1.25; }
+    .project-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.75; margin-bottom: 1.1rem; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.38rem; margin-bottom: 1rem; }
+    .project-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--accent-deep);
+      background: var(--accent-tint);
+      padding: 0.2rem 0.6rem;
+      border-radius: 980px;
+    }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.86rem;
+      font-weight: 500;
+      color: var(--accent);
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: var(--accent-deep); }
+    .project-link svg { transition: transform 0.2s; }
+    .project-link:hover svg { transform: translateX(3px); }
+
+    /* ==========================================================
+       WORLD MAP
+    ========================================================== */
+    #worldmap { background: var(--surface); border-top: 1px solid var(--hairline); }
+    .map-legend { display: flex; gap: 1.1rem; flex-wrap: wrap; margin: 1.8rem 0 1.2rem; }
+    .legend-chip { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: var(--muted); font-weight: 500; }
+    .legend-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 3px rgba(0,0,0,0.04); }
+    #world-map {
+      height: 480px;
+      border-radius: var(--radius);
+      border: 1px solid var(--hairline);
+      box-shadow: var(--shadow-md);
+      z-index: 1;
+    }
+    .map-count { font-size: 0.82rem; color: var(--faint); margin-top: 1rem; }
+
+    /* ==========================================================
+       RECOGNITION QUOTE
+    ========================================================== */
+    .recognition-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.2rem;
+      margin-top: 3.5rem;
+      align-items: stretch;
+    }
+    .recognition {
+      margin: 0;
+      background: var(--surface);
+      border: 1px solid var(--hairline);
+      border-radius: var(--radius);
+      padding: 2.4rem 2rem 1.8rem;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+    .recognition p { flex: 1; }
+    .recognition::before {
+      content: '\201C';
+      position: absolute;
+      top: 0.4rem; left: 1.4rem;
+      font-size: 4.5rem;
+      line-height: 1;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+    .recognition p {
+      font-size: 0.95rem;
+      line-height: 1.78;
+      color: var(--text);
+      font-style: italic;
+      margin-bottom: 1.1rem;
+    }
+    .recognition footer { font-size: 0.82rem; color: var(--muted); font-style: normal; }
+    .recognition footer strong { color: var(--text); font-weight: 600; }
+
+    /* ==========================================================
+       CONTACT
+    ========================================================== */
+    #contact {
+      background: #101014;
+      color: #f5f5f7;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #contact::before {
+      content: '';
+      position: absolute;
+      top: -30%; left: 50%;
+      transform: translateX(-50%);
+      width: 90vw; height: 70vh;
+      background: radial-gradient(ellipse at center, rgba(0,113,227,0.22), rgba(94,92,230,0.12) 45%, transparent 70%);
+      filter: blur(30px);
+      pointer-events: none;
+    }
+    #contact .section-inner { position: relative; }
+    #contact .section-tag { color: #6fb6ff; }
+    #contact .section-title { color: #f5f5f7; margin-bottom: 0.9rem; }
+    #contact .section-intro { color: rgba(245,245,247,0.65); margin: 0 auto 2.8rem; }
+    .contact-actions {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3.2rem;
+    }
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #f5f5f7;
+      color: #1d1d1f;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.78rem 1.8rem;
+      border-radius: 980px;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-white:hover { background: #fff; transform: translateY(-1px); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: rgba(245,245,247,0.8);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.78rem 1.8rem;
+      border: 1px solid rgba(255,255,255,0.25);
+      border-radius: 980px;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.6); color: #fff; background: rgba(255,255,255,0.06); }
+    .now-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 2.4rem;
+    }
+    .now-line {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 980px;
+      padding: 0.5rem 1.2rem;
+      font-size: 0.84rem;
+      color: rgba(245,245,247,0.75);
+    }
+    .now-line strong { color: #f5f5f7; font-weight: 600; }
+    .contact-footer {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 2rem;
+      font-size: 0.8rem;
+      color: rgba(245,245,247,0.45);
+    }
+
+    /* ==========================================================
+       LIGHTBOX
+    ========================================================== */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,20,22,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      z-index: 400;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      cursor: zoom-out;
+    }
+    .lightbox.open { display: flex; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .lightbox img {
+      max-width: min(92vw, 1000px);
+      max-height: 86vh;
+      border-radius: 16px;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+      animation: zoomIn 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes zoomIn { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .lightbox-close {
+      position: absolute;
+      top: 1.4rem; right: 1.6rem;
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    /* ==========================================================
+       COMMAND PALETTE  (⌘K)
+    ========================================================== */
+    .palette-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20,20,22,0.35);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 500;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 14vh 1.5rem 2rem;
+    }
+    .palette-overlay.open { display: flex; animation: fadeIn 0.18s ease; }
+    .palette {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: saturate(180%) blur(24px);
+      -webkit-backdrop-filter: saturate(180%) blur(24px);
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 16px;
+      box-shadow: 0 32px 90px rgba(0,0,0,0.28);
+      overflow: hidden;
+      animation: paletteIn 0.22s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes paletteIn { from { transform: translateY(-12px) scale(0.98); opacity: 0; } to { transform: none; opacity: 1; } }
+    .palette-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1rem 1.2rem;
+      border-bottom: 1px solid var(--hairline);
+    }
+    .palette-input-row svg { color: var(--faint); flex-shrink: 0; }
+    .palette input {
+      flex: 1;
+      border: none;
+      outline: none;
+      background: transparent;
+      font-family: var(--font);
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+    .palette input::placeholder { color: var(--faint); }
+    .palette-esc {
+      font-size: 0.68rem;
+      color: var(--faint);
+      border: 1px solid var(--hairline-2);
+      border-radius: 6px;
+      padding: 0.14rem 0.45rem;
+      flex-shrink: 0;
+    }
+    .palette-list { max-height: 320px; overflow-y: auto; padding: 0.5rem; }
+    .palette-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 0.85rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .palette-item .p-icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      background: var(--accent-tint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .palette-item .p-sub { font-size: 0.74rem; font-weight: 400; color: var(--faint); display: block; }
+    .palette-item.selected, .palette-item:hover { background: var(--accent-tint); }
+    .palette-empty { padding: 1.4rem; text-align: center; font-size: 0.88rem; color: var(--faint); }
+
+    /* ==========================================================
+       BACK TO TOP
+    ========================================================== */
+    #toTop {
+      position: fixed;
+      right: 1.4rem; bottom: 1.4rem;
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--hairline);
+      box-shadow: var(--shadow-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+      transition: opacity 0.3s, transform 0.3s;
+      z-index: 150;
+    }
+    #toTop.show { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    #toTop:hover { color: var(--accent); }
+
+    /* ==========================================================
+       RESPONSIVE
+    ========================================================== */
+    @media (max-width: 960px) {
+      #hero { grid-template-columns: 1fr; padding-top: calc(var(--nav-h) + 3rem); min-height: auto; }
+      .hero-photo-wrap { justify-self: center; max-width: 380px; margin-top: 1rem; }
+      .float-chip.c1 { left: -4%; }
+      .float-chip.c2 { right: -3%; }
+      .scroll-hint { display: none; }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .about-grid { grid-template-columns: 1fr; gap: 2.2rem; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .nav-burger { display: flex; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-card.featured { grid-column: auto; display: block; }
+      .edu-grid { grid-template-columns: 1fr; }
+      .awards-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 520px) {
+      section { padding: 4.5rem 1.2rem; }
+      .stats-grid { grid-template-columns: 1fr; gap: 0.7rem; }
+      .stat-card { padding: 1.2rem 0.8rem; }
+      .float-chip.c1, .float-chip.c2, .float-chip.c3 { display: none; }
+      .contact-actions { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="progress"></div>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#hero" class="nav-logo">Carlo Daneloni</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#achievements">Awards</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><button class="nav-kbd" onclick="openPalette()" aria-label="Open quick search"><kbd>⌘</kbd><kbd>K</kbd></button></li>
+      <li><a href="#contact" class="nav-cta">Say hi</a></li>
+    </ul>
+    <div class="nav-burger" id="burger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#experience" onclick="toggleMenu()">Experience</a>
+    <a href="#education" onclick="toggleMenu()">Education</a>
+    <a href="#achievements" onclick="toggleMenu()">Awards</a>
+    <a href="#projects" onclick="toggleMenu()">Projects</a>
+    <a href="#worldmap" onclick="toggleMenu()">World Map</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+  </div>
+
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-ambient"></div>
+
+    <div class="hero-text">
+      <div class="hero-eyebrow reveal">
+        Strategy <span class="hero-dot"></span> Consulting <span class="hero-dot"></span> Imperial College
+      </div>
+
+      <h1 class="hero-name reveal d1">
+        International<br>
+        Business &amp;<br>
+        <span class="grad">Strategy.</span>
+      </h1>
+
+      <div class="hero-rotator reveal d2">
+        <span id="rotator"></span><span class="cursor"></span>
+      </div>
+
+      <p class="hero-desc reveal d2">
+        From Arezzo, Italy. First Class Honours in International Business at Greenwich.
+        Starting my MSc at Imperial College London in September 2026.
+      </p>
+
+      <div class="hero-quote reveal d3">
+        <p>"Life is full of trains, but you must go to the station to get them."</p>
+      </div>
+
+      <div class="hero-actions reveal d3">
+        <a href="#contact" class="btn-primary">
+          Get in touch
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="Carlo-Daneloni-CV.pdf" download class="btn-secondary">
+          Download CV
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/carlo-daneloni-785540273/" target="_blank" rel="noopener" class="btn-link">
+          Meet Carlo
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="hero-photo-wrap reveal d2">
+      <div class="hero-photo-glow"></div>
+      <div class="hero-photo"><img src="photo.jpg" alt="Carlo Daneloni" /></div>
+      <div class="float-chip c1">🎓 <span>First Class Honours<span class="sub">University of Greenwich</span></span></div>
+      <div class="float-chip c2">🏛️ <span>Imperial College<span class="sub">MSc — Sep 2026</span></span></div>
+      <div class="float-chip c3">🏆 <span>2× Competition Winner<span class="sub">Back-to-back titles</span></span></div>
+    </div>
+
+    <div class="scroll-hint">Scroll</div>
+  </section>
+
+
+  <!-- STATS -->
+  <section id="stats">
+    <div class="stats-grid">
+      <div class="stat-card reveal"><div class="stat-num" data-count="10000" data-prefix="£">£0</div><div class="stat-label">Grant funding secured</div></div>
+      <div class="stat-card reveal d1"><div class="stat-num" data-count="2" data-suffix="×">0</div><div class="stat-label">Business competitions won</div></div>
+      <div class="stat-card reveal d2"><div class="stat-num" data-count="3">0</div><div class="stat-label">Languages spoken</div></div>
+    </div>
+  </section>
+
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <span class="section-tag reveal">About Me</span>
+      <h2 class="section-title reveal">Where I'm from<br>and what made me</h2>
+
+      <div class="about-grid">
+        <div class="about-text reveal">
+          <p>
+            I grew up in Arezzo, a small city in Tuscany. My family had clear values around work and
+            responsibility, and those stayed with me. You're expected to put the effort in, take things
+            seriously, and not complain about it. That's just how things were.
+          </p>
+          <p>
+            One summer, before university, I spent two months working on a farm outside Arezzo with a
+            local farmer. Early starts, long hours, physical work. No shortcuts, no exceptions. It was one
+            of the most grounding experiences I've had. You come away with a different understanding of the
+            value of money, and a genuine respect for people who do that kind of work every day.
+          </p>
+          <p>
+            I moved to London to study international business at the University of Greenwich. I graduated
+            with a First Class Honours. While I was there, I co-founded two student societies, led a real
+            market entry for a food-tech startup, won two business competitions back-to-back, and delivered
+            a full consultancy project for Enterprise Mobility.
+          </p>
+          <p>
+            I'm now starting an MSc in Economics and Strategy for Business at Imperial College London in
+            September 2026. I'm drawn to strategy, investments, and the early stages of building things.
+            I tend to get on with the work rather than talk about it.
+          </p>
+
+          <div class="map-wrap">
+            <div id="arezzo-map"></div>
+            <div class="map-label">
+              <span>&#128205;</span> Arezzo, Tuscany, Italy &mdash; where I grew up
+            </div>
+          </div>
+        </div>
+
+        <div class="about-sidebar reveal d1">
+          <div class="current-badge">
+            <span class="badge-label"><span class="live-dot"></span> Right now</span>
+            <strong>Consulting Intern, Blackmont Consulting</strong><br>
+            Working on a live strategy engagement for a chemical company in India.
+            Starting Imperial College London in September 2026.
+          </div>
+
+          <div class="about-card">
+            <h4>Languages</h4>
+            <div class="lang-list">
+              <div class="lang-item">
+                <span class="lang-name">Italian</span>
+                <span class="lang-level">Native</span>
+              </div>
+              <div class="lang-item">
+                <span class="lang-name">English</span>
+                <span class="lang-level">Fluent</span>
+              </div>
+              <div class="lang-item">
+                <span class="lang-name">Spanish</span>
+                <span class="lang-level">Conversational</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-card">
+            <h4>Interests</h4>
+            <div class="interest-tags">
+              <span class="interest-tag">Strategy consulting</span>
+              <span class="interest-tag">Venture capital</span>
+              <span class="interest-tag">Investments</span>
+              <span class="interest-tag">Early-stage startups</span>
+              <span class="interest-tag">International business</span>
+              <span class="interest-tag">Nature</span>
+              <span class="interest-tag">Music</span>
+              <span class="interest-tag">Contemporary art</span>
+              <span class="interest-tag">Reading biographies</span>
+              <span class="interest-tag">Travel</span>
+              <span class="interest-tag">Hospitality</span>
+              <span class="interest-tag">Cooking</span>
+            </div>
+          </div>
+
+          <div class="about-card about-photo">
+            <img src="about-iflytek.jpg" alt="Carlo visiting iFLYTEK headquarters in China" loading="lazy" />
+            <div class="about-photo-caption">Visiting iFLYTEK's headquarters &mdash; China study tour, June 2026.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-inner">
+      <span class="section-tag reveal">Experience</span>
+      <h2 class="section-title reveal">What I've worked on</h2>
+      <p class="section-intro reveal">
+        A mix of consulting, fundraising, market entry, and hospitality. Each role taught me something different.
+      </p>
+
+      <div class="timeline">
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot current"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-role">Consulting Intern</div>
+              <span class="timeline-date">May 2026 &ndash; Present</span>
+            </div>
+            <div class="timeline-company">Blackmont Consulting</div>
+            <div class="timeline-body">
+              <p>Working on live strategy projects at Blackmont. My main engagement is with a dry chemicals company in India. I'm running market analysis and putting together practical recommendations for the client.</p>
+              <p>The work covers commercial and non-profit projects. It moves fast, and every week you're presenting findings and adjusting to what the client actually needs.</p>
+            </div>
+            <div class="timeline-tags">
+              <span class="timeline-tag">Strategy</span>
+              <span class="timeline-tag">Market Analysis</span>
+              <span class="timeline-tag">Chemicals Sector</span>
+              <span class="timeline-tag">Client Delivery</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-role">Fundraising &amp; Strategy Intern</div>
+              <span class="timeline-date">Jun 2025 &ndash; Oct 2025</span>
+            </div>
+            <div class="timeline-company">Female Archetypes</div>
+            <div class="timeline-body">
+              <p>I ran the grant application process from beginning to end — research, writing, and securing a &pound;10,000 award.</p>
+              <p>Also built a fundraising strategy, mapping VC firms, grant bodies, and angel investor networks that fitted the organisation's mission.</p>
+            </div>
+            <div class="timeline-tags">
+              <span class="timeline-tag">Fundraising</span>
+              <span class="timeline-tag">Grant Writing</span>
+              <span class="timeline-tag">&pound;10,000 secured</span>
+              <span class="timeline-tag">VC Research</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-role">UK Market Expansion Lead</div>
+              <span class="timeline-date">Oct 2024 &ndash; Feb 2025</span>
+            </div>
+            <div class="timeline-company">FeedEat</div>
+            <div class="timeline-body">
+              <p>Led the UK launch of an Italian food-tech startup building digital menus for luxury restaurants. Built the go-to-market strategy from scratch, ran demos, and developed a pipeline of restaurant prospects in London.</p>
+            </div>
+            <div class="timeline-tags">
+              <span class="timeline-tag">Go-to-Market</span>
+              <span class="timeline-tag">Business Development</span>
+              <span class="timeline-tag">Food Tech</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-role">Guest Relations</div>
+              <span class="timeline-date">May 2023 &ndash; Sep 2023</span>
+            </div>
+            <div class="timeline-company">Il Borro Relais &amp; Ch&acirc;teaux &mdash; Florence, Italy</div>
+            <div class="timeline-body">
+              <p>Il Borro is a five-star Ferragamo estate in Tuscany. I managed the experience for international guests across a multilingual, high-standard environment. The role needed composure, attention to detail, and the ability to read people quickly.</p>
+            </div>
+            <div class="timeline-tags">
+              <span class="timeline-tag">Guest Relations</span>
+              <span class="timeline-tag">Luxury Hospitality</span>
+              <span class="timeline-tag">Multilingual</span>
+              <span class="timeline-tag">Ferragamo Group</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-role">Quality Control Worker</div>
+              <span class="timeline-date">Jun 2020 &ndash; Jul 2020</span>
+            </div>
+            <div class="timeline-company">Promode SRL &mdash; Arezzo, Italy</div>
+            <div class="timeline-body">
+              <p>Mandatory work placement after high school. I worked in quality control at this goldsmith company in Arezzo, checking products and making sure standards were met.</p>
+            </div>
+            <div class="timeline-tags">
+              <span class="timeline-tag">Quality Control</span>
+              <span class="timeline-tag">Goldsmith</span>
+              <span class="timeline-tag">Arezzo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="timeline-item reveal">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <div class="timeline-header">
+              <div class="timeline-role">Farm Work</div>
+              <span class="timeline-date">Summer 2021</span>
+            </div>
+            <div class="timeline-company">Local Farm &mdash; Arezzo, Italy</div>
+            <div class="timeline-body">
+              <p>Two months on a farm outside Arezzo before university. Early starts, long hours, physical work. No shortcuts. One of the most grounding things I've done. You come away understanding the real value of work.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="section-inner">
+      <span class="section-tag reveal">Education</span>
+      <h2 class="section-title reveal">Academic background</h2>
+
+      <div class="edu-grid">
+
+        <div class="edu-card featured reveal">
+          <span class="edu-badge">Upcoming &mdash; Sep 2026</span>
+          <div class="edu-school">Imperial College London</div>
+          <div class="edu-degree">MSc Economics and Strategy for Business</div>
+          <div class="edu-date">September 2026</div>
+          <div class="edu-note">One of the top programmes in the UK for students heading into strategy, finance, and consulting. A natural step after graduating First at Greenwich.</div>
+        </div>
+
+        <div class="edu-card reveal d1">
+          <span class="edu-badge">2023 &ndash; 2026 &mdash; First Class Honours</span>
+          <div class="edu-school">University of Greenwich</div>
+          <div class="edu-degree">BA International Business</div>
+          <div class="edu-date">Sep 2023 &ndash; Apr 2026 &sdot; London, UK</div>
+          <div class="edu-note">Graduated with a First. Won two consultancy competitions and co-founded two student societies during this time. Greenwich Business School.</div>
+        </div>
+
+        <div class="edu-card reveal d2">
+          <span class="edu-badge">Nov 2022 &ndash; Jun 2023</span>
+          <div class="edu-school">Kaplan International English</div>
+          <div class="edu-degree">Intensive English Language Programme</div>
+          <div class="edu-date">Nov 2022 &ndash; Jun 2023 &sdot; London, UK</div>
+          <div class="edu-note">
+            Intensive programme that significantly improved my fluency and confidence in English. Reached C1 level.
+            The cultural exchange and practical application of the language gave me a broader perspective on
+            communication across cultures. The experience deepened my appreciation of global perspectives
+            and prepared me well for international environments.
+          </div>
+        </div>
+
+        <div class="edu-card reveal d3">
+          <span class="edu-badge">2017 &ndash; 2021</span>
+          <div class="edu-school">Scientific Lyceum Applied Science</div>
+          <div class="edu-degree">Scientific Baccalaureate</div>
+          <div class="edu-date">2017 &ndash; 2021 &sdot; Arezzo, Italy</div>
+          <div class="edu-note">Scientific high school in Arezzo. Strong base in mathematics, sciences, and the humanities.</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ACHIEVEMENTS -->
+  <section id="achievements">
+    <div class="section-inner">
+      <span class="section-tag reveal">Awards &amp; Recognition</span>
+      <h2 class="section-title reveal">Things that got recognised</h2>
+      <p class="section-intro reveal">A few highlights from the last three years. Consultancy competitions, academic recognition, and a government-funded trip to China.</p>
+
+      <div class="awards-grid">
+
+        <div class="award-card tilt reveal">
+          <div class="award-icon">&#127942;</div>
+          <div class="award-title">Champions of Consultancy</div>
+          <div class="award-org">University of Greenwich</div>
+          <div class="award-date">2026</div>
+          <div class="award-body">My team, Northstar Consultancy, won best business solution. Two rounds, 20 competing teams. We impressed the owner of Rivendell Real Estate in Round 1, then won the live audience vote in the final.</div>
+          <div class="award-photo real"><img src="award-champions-consultancy.jpg" alt="Champions of Consultancy certificate" loading="lazy" /></div>
+        </div>
+
+        <div class="award-card tilt reveal d1">
+          <div class="award-icon">&#127881;</div>
+          <div class="award-title">Star of the Future</div>
+          <div class="award-org">Greenwich Business School</div>
+          <div class="award-date">January 28, 2026</div>
+          <div class="award-body">Certificate of Recognition awarded by Karen Brickman, Head of School, for outstanding academic performance and contribution within the Business School.</div>
+          <div class="award-photo real"><img src="award-star-of-the-future.jpg" alt="Star of the Future certificate" loading="lazy" /></div>
+        </div>
+
+        <div class="award-card tilt reveal d2">
+          <div class="award-icon">&#127758;</div>
+          <div class="award-title">Winner, Global Business Simulation</div>
+          <div class="award-org">University of Greenwich &amp; Edumundo</div>
+          <div class="award-date">February 4, 2026</div>
+          <div class="award-body">My team APEX Strategy won back-to-back. Finished first with a stock price of 136.90, beating seven teams. Two years, two wins.</div>
+          <div class="award-photo real"><img src="award-business-simulation-2026.jpg" alt="Winner Business Simulation 2026 certificate" loading="lazy" /></div>
+        </div>
+
+        <div class="award-card tilt reveal">
+          <div class="award-icon">&#127891;</div>
+          <div class="award-title">Winner, Global Simulation Game</div>
+          <div class="award-org">Greenwich Business School &mdash; APEX Strategy</div>
+          <div class="award-date">2024 &ndash; 2025</div>
+          <div class="award-body">First win with APEX Strategy the year before. Defended the title in 2025/26.</div>
+          <div class="award-photo real"><img src="award-global-simulation-game.jpg" alt="Winner Global Simulation Game certificate" loading="lazy" /></div>
+        </div>
+
+        <div class="award-card tilt reveal d1">
+          <div class="award-icon">&#127982;</div>
+          <div class="award-title">Chinese Government Mobility Programme</div>
+          <div class="award-org">UIBE Beijing &amp; Shandong University</div>
+          <div class="award-date">June 2026</div>
+          <div class="award-body">Selected for a fully funded two-week programme. UIBE Beijing (June 1&ndash;7) and Shandong University (June 7&ndash;14).</div>
+          <div class="award-gallery two">
+            <div class="g-item"><img src="award-study-tour-china-beijing.jpg" alt="UIBE Beijing certificate" loading="lazy" /></div>
+            <div class="g-item"><img src="award-study-tour-china-shandong.jpg" alt="Shandong University certificate" loading="lazy" /></div>
+          </div>
+        </div>
+
+        <div class="award-card tilt reveal d2">
+          <div class="award-icon">&#129309;</div>
+          <div class="award-title">Co-Founder, Two Student Societies</div>
+          <div class="award-org">University of Greenwich</div>
+          <div class="award-date">2023 &ndash; 2026</div>
+          <div class="award-body">Co-founded the International Business Society (Co-President) and held Vice-President at the Italian Society.</div>
+          <div class="award-gallery">
+            <div class="g-item"><img src="society-1.jpg" alt="Student society event — full audience" loading="lazy" /></div>
+            <div class="g-item"><img src="society-2.jpg" alt="Student society event" loading="lazy" /></div>
+            <div class="g-item"><img src="society-3.jpg" alt="Student society event" loading="lazy" /></div>
+            <div class="g-item"><img src="society-embassy.jpg" alt="Italian Embassy event" loading="lazy" /></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="recognition-grid">
+        <blockquote class="recognition reveal">
+          <p>I can state unequivocally that Carlo is one of the finest students I have taught throughout my career. He was, without question, the top-performing student in the class.</p>
+          <footer><strong>Dr Zheyuan Hu</strong> &mdash; Programme Leader, BA International Business &amp; Module Leader, Greenwich Business School</footer>
+        </blockquote>
+        <blockquote class="recognition reveal d1">
+          <p>Carlo was an outstanding student, highly engaged in class and inquisitive in nature. His final assignment received one of the highest scores in the class.</p>
+          <footer><strong>Dr Balint Dioszegi</strong> &mdash; Lecturer in Network Science, Greenwich Business School &amp; Honorary Research Fellow, Imperial College</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-inner">
+      <span class="section-tag reveal">Projects &amp; Case Studies</span>
+      <h2 class="section-title reveal">Work I'm proud of</h2>
+      <p class="section-intro reveal">Real consultancy, market entry, and a few things built from scratch.</p>
+
+      <div class="projects-grid">
+
+        <div class="project-card featured tilt reveal">
+          <div class="project-img real">
+            <img src="project-enterprise-mobility.jpg" alt="Enterprise Mobility" loading="lazy" />
+          </div>
+          <div class="project-body">
+            <div class="project-type">Consultancy Report &mdash; 2026</div>
+            <div class="project-title">Residential Mobility 2.0</div>
+            <div class="project-tags">
+              <span class="project-tag">Enterprise Mobility</span>
+              <span class="project-tag">Original Research</span>
+              <span class="project-tag">Survey Analysis</span>
+              <span class="project-tag">Regression Modelling</span>
+              <span class="project-tag">Strategy</span>
+            </div>
+            <div class="project-desc">A 44-page strategy report delivered to Enterprise Mobility as part of my final year at Greenwich. Original survey research, regression analysis, and practical recommendations on their residential mobility offering. The team won Champions of Consultancy for best business solution. Real brief, real client.</div>
+            <a href="enterprise-mobility.pdf" download class="project-link">
+              Download PDF report
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card tilt reveal">
+          <div class="project-img real">
+            <img src="project-feedeat.jpg" alt="Feedeat" loading="lazy" />
+          </div>
+          <div class="project-body">
+            <div class="project-type">Market Entry &mdash; 2024/25</div>
+            <div class="project-title">FeedEat &mdash; UK Launch</div>
+            <div class="project-tags">
+              <span class="project-tag">Go-to-Market</span>
+              <span class="project-tag">Food Tech</span>
+              <span class="project-tag">B2B Sales</span>
+            </div>
+            <div class="project-desc">Led the UK market entry for FeedEat, an Italian food-tech startup. Built the GTM strategy, commercial framework, and restaurant pipeline from scratch.</div>
+            <a href="https://feedeat.co.uk" target="_blank" rel="noopener" class="project-link">
+              Visit FeedEat
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="project-card tilt reveal d1">
+          <div class="project-img real photo">
+            <img src="project-sabrina-candi.jpg" alt="Sabrina Candi" loading="lazy" />
+          </div>
+          <div class="project-body">
+            <div class="project-type">Website Build &mdash; Arezzo</div>
+            <div class="project-title">Sabrina Candi &mdash; Law Firm</div>
+            <div class="project-tags">
+              <span class="project-tag">Web Design</span>
+              <span class="project-tag">Legal</span>
+              <span class="project-tag">Arezzo</span>
+            </div>
+            <div class="project-desc">Built the website for Sabrina Candi, a law firm based in Arezzo.</div>
+            <a href="https://sabrinacandi.it" target="_blank" rel="noopener" class="project-link">
+              Visit site
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- WORLD MAP -->
+  <section id="worldmap">
+    <div class="section-inner">
+      <span class="section-tag reveal">Around the World</span>
+      <h2 class="section-title reveal">Where I've been</h2>
+      <p class="section-intro reveal">Every pin tells a small part of the story &mdash; places I've lived, studied, worked, and explored.</p>
+
+      <div class="map-legend reveal">
+        <span class="legend-chip"><span class="legend-dot" style="background:#ff9f0a;"></span> Home</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:#30d158;"></span> Worked</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:#bf5af2;"></span> Studied</span>
+        <span class="legend-chip"><span class="legend-dot" style="background:#0071e3;"></span> Visited</span>
+      </div>
+      <div id="world-map" class="reveal"></div>
+      <div class="map-count reveal" id="mapCount"></div>
+    </div>
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <span class="section-tag reveal">Contact</span>
+      <h2 class="section-title reveal">Let's talk</h2>
+      <p class="section-intro reveal">I'm open to conversations about strategy, consulting, investments, or anything interesting. Reach out on LinkedIn or email me directly.</p>
+      <div class="contact-actions reveal d1">
+        <a href="https://www.linkedin.com/in/carlo-daneloni-785540273/" target="_blank" rel="noopener" class="btn-white">
+          LinkedIn
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
+        </a>
+        <a href="mailto:c.daneloni@gmail.com" class="btn-primary">
+          Email me
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,12 2,6"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/carlo-daneloni-785540273/" target="_blank" rel="noopener" class="btn-ghost">View CV on LinkedIn</a>
+      </div>
+      <div class="now-wrap reveal">
+        <div class="now-line">
+          <span>&#128205;</span> <strong>Now:</strong>&nbsp;London &middot; Consulting Intern at Blackmont &middot; Imperial MSc from Sep 2026
+        </div>
+        <div class="now-line">
+          <span>&#128214;</span> <strong>Reading:</strong>&nbsp;The Startup Equation &mdash; Steven Fisher &amp; Ja-Na&eacute; Duane
+        </div>
+      </div>
+      <div class="contact-footer">&copy; 2026 Carlo Daneloni &mdash; Arezzo, Italy &sdot; London, UK</div>
+    </div>
+  </section>
+
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <button class="lightbox-close" aria-label="Close">&times;</button>
+    <img id="lightboxImg" src="" alt="Enlarged view" />
+  </div>
+
+
+  <!-- COMMAND PALETTE -->
+  <div class="palette-overlay" id="paletteOverlay">
+    <div class="palette" id="palette">
+      <div class="palette-input-row">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="paletteInput" placeholder="Jump to a section or action…" autocomplete="off" />
+        <span class="palette-esc">esc</span>
+      </div>
+      <div class="palette-list" id="paletteList"></div>
+    </div>
+  </div>
+
+
+  <!-- BACK TO TOP -->
+  <button id="toTop" aria-label="Back to top">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- SCRIPTS -->
+  <script>
+    /* ============ MAP — light Apple-like tiles ============ */
+    (function() {
+      var mapEl = document.getElementById('arezzo-map');
+      if (!mapEl || typeof L === 'undefined') return;
+      try {
+        var map = L.map('arezzo-map', { zoomControl: true, scrollWheelZoom: false }).setView([43.4636, 11.8797], 14);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          maxZoom: 19
+        }).addTo(map);
+        var icon = L.divIcon({
+          html: '<div style="background:#0071e3;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
+          className: '',
+          iconSize: [14, 14],
+          iconAnchor: [7, 7]
+        });
+        L.marker([43.4636, 11.8797], { icon: icon }).addTo(map).bindPopup('<strong>Arezzo</strong><br>Tuscany, Italy').openPopup();
+      } catch(e) { console.warn('Map failed to load', e); }
+    })();
+
+    /* ============ WORLD MAP — places lived, studied, worked, visited ============ */
+    (function() {
+      var el = document.getElementById('world-map');
+      if (!el || typeof L === 'undefined') return;
+      try {
+        var wmap = L.map('world-map', { zoomControl: true, scrollWheelZoom: false, worldCopyJump: true, minZoom: 2 })
+          .setView([34, 20], 2);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+          maxZoom: 18
+        }).addTo(wmap);
+
+        var colors = { home: '#ff9f0a', worked: '#30d158', studied: '#bf5af2', visited: '#0071e3' };
+        var places = [
+          // home & worked
+          { n:'Arezzo, Italy', c:'home', lat:43.4636, lng:11.8797, note:'Home — where I grew up. Also worked here (Promode SRL, farm work).' },
+          { n:'Florence, Italy', c:'worked', lat:43.7696, lng:11.2558, note:'Guest Relations at Il Borro Relais & Châteaux.' },
+          { n:'London, UK', c:'worked', lat:51.5072, lng:-0.1276, note:'Studied at Greenwich (First Class Honours) — worked at Blackmont, FeedEat, Female Archetypes. Imperial MSc from Sep 2026.' },
+          // studied
+          { n:'Salamanca, Spain', c:'studied', lat:40.9701, lng:-5.6635, note:'Studied here.' },
+          { n:'Swanage, England', c:'studied', lat:50.6086, lng:-1.9600, note:'Studied here.' },
+          { n:'Worthing, England', c:'studied', lat:50.8123, lng:-0.3712, note:'Studied here.' },
+          { n:'Beijing, China', c:'studied', lat:39.9042, lng:116.4074, note:'UIBE — Chinese Government Mobility Programme, June 2026.' },
+          { n:'Jinan (Shandong), China', c:'studied', lat:36.6512, lng:117.1201, note:'Shandong University — study tour, June 2026.' },
+          // visited — Greece
+          { n:'Kos, Greece', c:'visited', lat:36.8933, lng:27.2889 },
+          { n:'Zakynthos (Zante), Greece', c:'visited', lat:37.7870, lng:20.8999 },
+          { n:'Corfu, Greece', c:'visited', lat:39.6243, lng:19.9217 },
+          { n:'Milos, Greece', c:'visited', lat:36.7472, lng:24.4300 },
+          { n:'Naxos, Greece', c:'visited', lat:37.1036, lng:25.3763 },
+          { n:'Donoussa, Greece', c:'visited', lat:37.1055, lng:25.8125 },
+          // visited — Corsica
+          { n:'Bonifacio, Corsica', c:'visited', lat:41.3871, lng:9.1595 },
+          { n:'Porto-Vecchio, Corsica', c:'visited', lat:41.5912, lng:9.2795 },
+          { n:'Bastia, Corsica', c:'visited', lat:42.6977, lng:9.4500 },
+          // visited — Spain
+          { n:'Valencia, Spain', c:'visited', lat:39.4699, lng:-0.3763 },
+          { n:'Seville, Spain', c:'visited', lat:37.3891, lng:-5.9845 },
+          { n:'Barcelona, Spain', c:'visited', lat:41.3874, lng:2.1686 },
+          { n:'Madrid, Spain', c:'visited', lat:40.4168, lng:-3.7038 },
+          // visited — elsewhere
+          { n:'Paris, France', c:'visited', lat:48.8566, lng:2.3522 },
+          { n:'Istanbul, Türkiye', c:'visited', lat:41.0082, lng:28.9784 },
+          { n:'Morocco', c:'visited', lat:31.6295, lng:-7.9811 },
+          { n:'Zanzibar, Tanzania', c:'visited', lat:-6.1659, lng:39.1988 },
+          { n:'Maldives', c:'visited', lat:3.2028, lng:73.2207 },
+          { n:'Scotland, UK', c:'visited', lat:56.4907, lng:-4.2026 },
+          { n:'Switzerland', c:'visited', lat:46.8182, lng:8.2275 },
+          // visited — Italy
+          { n:'Sicily, Italy', c:'visited', lat:37.5999, lng:14.0154 },
+          { n:'Puglia, Italy', c:'visited', lat:40.7928, lng:17.1012 },
+          { n:'Naples, Italy', c:'visited', lat:40.8518, lng:14.2681 },
+          { n:'Rome, Italy', c:'visited', lat:41.8933, lng:12.4829 },
+          { n:'Bologna, Italy', c:'visited', lat:44.4949, lng:11.3426 },
+          { n:'Milan, Italy', c:'visited', lat:45.4642, lng:9.1900 },
+          { n:'Venice, Italy', c:'visited', lat:45.4408, lng:12.3155 }
+        ];
+
+        var labels = { home: 'Home', worked: 'Worked', studied: 'Studied', visited: 'Visited' };
+        places.forEach(function(p) {
+          var big = (p.c !== 'visited');
+          var size = big ? 16 : 12;
+          var icon = L.divIcon({
+            html: '<div style="background:' + colors[p.c] + ';width:' + size + 'px;height:' + size + 'px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',
+            className: '',
+            iconSize: [size, size],
+            iconAnchor: [size/2, size/2]
+          });
+          var html = '<strong>' + p.n + '</strong><br><span style="color:' + colors[p.c] + ';font-weight:600;font-size:0.78rem;">' + labels[p.c] + '</span>' + (p.note ? '<br><span style="font-size:0.8rem;">' + p.note + '</span>' : '');
+          L.marker([p.lat, p.lng], { icon: icon }).addTo(wmap).bindPopup(html);
+        });
+
+        var counts = {};
+        places.forEach(function(p) { counts[p.c] = (counts[p.c] || 0) + 1; });
+        var countEl = document.getElementById('mapCount');
+        if (countEl) countEl.textContent = places.length + ' places pinned — ' + (counts.visited || 0) + ' visited, ' + (counts.studied || 0) + ' studied, ' + (counts.worked || 0) + ' worked, and 1 place called home.';
+      } catch(e) { console.warn('World map failed to load', e); }
+    })();
+
+    /* ============ NAV ============ */
+    function toggleMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+      document.getElementById('burger').classList.toggle('open');
+    }
+
+    var nav = document.getElementById('nav');
+    var progress = document.getElementById('progress');
+    var toTop = document.getElementById('toTop');
+    var sections = document.querySelectorAll('section[id]');
+    var navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', function() {
+      var y = window.scrollY;
+      // frosted nav border
+      nav.classList.toggle('scrolled', y > 10);
+      // progress bar
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
+      // back to top
+      toTop.classList.toggle('show', y > 700);
+      // active section highlight
+      var current = '';
+      sections.forEach(function(s) { if (y >= s.offsetTop - 120) current = s.id; });
+      navLinks.forEach(function(a) {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+      });
+    }, { passive: true });
+
+    toTop.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ============ REVEAL ON SCROLL ============ */
+    (function() {
+      var els = document.querySelectorAll('.reveal');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(function(el) { el.classList.add('visible'); });
+        return;
+      }
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      els.forEach(function(el) { io.observe(el); });
+    })();
+
+    /* ============ ANIMATED COUNTERS ============ */
+    (function() {
+      var nums = document.querySelectorAll('.stat-num');
+      function animate(el) {
+        var target = parseInt(el.getAttribute('data-count'), 10);
+        var prefix = el.getAttribute('data-prefix') || '';
+        var suffix = el.getAttribute('data-suffix') || '';
+        var dur = 1400;
+        var start = null;
+        function step(ts) {
+          if (!start) start = ts;
+          var p = Math.min((ts - start) / dur, 1);
+          var eased = 1 - Math.pow(1 - p, 3); // ease-out cubic
+          var val = Math.round(eased * target);
+          el.textContent = prefix + val.toLocaleString('en-GB') + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+      if (!('IntersectionObserver' in window)) { nums.forEach(animate); return; }
+      var io = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) { animate(entry.target); io.unobserve(entry.target); }
+        });
+      }, { threshold: 0.5 });
+      nums.forEach(function(el) { io.observe(el); });
+    })();
+
+    /* ============ HERO TYPING ROTATOR ============ */
+    (function() {
+      var el = document.getElementById('rotator');
+      if (!el) return;
+      var phrases = [
+        'Strategy consulting.',
+        'Market entry & go-to-market.',
+        'Fundraising & venture capital.',
+        'Building things from scratch.'
+      ];
+      var pi = 0, ci = 0, deleting = false;
+      function tick() {
+        var phrase = phrases[pi];
+        if (!deleting) {
+          ci++;
+          el.textContent = phrase.slice(0, ci);
+          if (ci === phrase.length) { deleting = true; setTimeout(tick, 2000); return; }
+          setTimeout(tick, 55 + Math.random() * 45);
+        } else {
+          ci--;
+          el.textContent = phrase.slice(0, ci);
+          if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; setTimeout(tick, 350); return; }
+          setTimeout(tick, 28);
+        }
+      }
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduce) { el.textContent = phrases[0]; } else { setTimeout(tick, 600); }
+    })();
+
+    /* ============ 3D TILT ON CARDS ============ */
+    (function() {
+      if (window.matchMedia('(hover: none)').matches) return; // skip touch devices
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      document.querySelectorAll('.tilt').forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+          var r = card.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width - 0.5;
+          var y = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = 'perspective(900px) rotateX(' + (-y * 4) + 'deg) rotateY(' + (x * 4) + 'deg) translateY(-3px)';
+        });
+        card.addEventListener('mouseleave', function() {
+          card.style.transform = '';
+        });
+      });
+    })();
+
+    /* ============ AWARD IMAGE LIGHTBOX ============ */
+    var lightbox = document.getElementById('lightbox');
+    var lightboxImg = document.getElementById('lightboxImg');
+    document.querySelectorAll('.award-photo.real img, .award-gallery .g-item img, .about-photo img').forEach(function(img) {
+      img.parentElement.addEventListener('click', function() {
+        lightboxImg.src = img.src;
+        lightboxImg.alt = img.alt;
+        lightbox.classList.add('open');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    /* ============ COMMAND PALETTE (⌘K) ============ */
+    var paletteOverlay = document.getElementById('paletteOverlay');
+    var paletteInput = document.getElementById('paletteInput');
+    var paletteList = document.getElementById('paletteList');
+    var paletteItems = [
+      { icon: '👋', label: 'About', sub: 'Where I\'m from and what made me', action: '#about' },
+      { icon: '💼', label: 'Experience', sub: 'Consulting, fundraising, market entry', action: '#experience' },
+      { icon: '🎓', label: 'Education', sub: 'Imperial, Greenwich, Kaplan', action: '#education' },
+      { icon: '🏆', label: 'Awards', sub: 'Competitions, recognition, China programme', action: '#achievements' },
+      { icon: '🚀', label: 'Projects', sub: 'Enterprise Mobility, FeedEat, web builds', action: '#projects' },
+      { icon: '🗺️', label: 'World map', sub: 'Places lived, studied, worked, visited', action: '#worldmap' },
+      { icon: '📄', label: 'Download CV', sub: 'Carlo-Daneloni-CV.pdf', action: 'Carlo-Daneloni-CV.pdf', external: true },
+      { icon: '✉️', label: 'Contact', sub: 'Let\'s talk', action: '#contact' },
+      { icon: '🔗', label: 'Open LinkedIn', sub: 'linkedin.com/in/carlo-daneloni', action: 'https://www.linkedin.com/in/carlo-daneloni-785540273/', external: true },
+      { icon: '📧', label: 'Send an email', sub: 'c.daneloni@gmail.com', action: 'mailto:c.daneloni@gmail.com', external: true }
+    ];
+    var filtered = paletteItems.slice();
+    var selectedIdx = 0;
+
+    function renderPalette() {
+      if (!filtered.length) {
+        paletteList.innerHTML = '<div class="palette-empty">No results</div>';
+        return;
+      }
+      paletteList.innerHTML = filtered.map(function(item, i) {
+        return '<div class="palette-item' + (i === selectedIdx ? ' selected' : '') + '" data-idx="' + i + '">' +
+          '<span class="p-icon">' + item.icon + '</span>' +
+          '<span>' + item.label + '<span class="p-sub">' + item.sub + '</span></span>' +
+        '</div>';
+      }).join('');
+      paletteList.querySelectorAll('.palette-item').forEach(function(el) {
+        el.addEventListener('click', function() { runPaletteItem(parseInt(el.getAttribute('data-idx'), 10)); });
+      });
+    }
+    function runPaletteItem(i) {
+      var item = filtered[i];
+      if (!item) return;
+      closePalette();
+      if (item.external) { window.open(item.action, item.action.indexOf('mailto:') === 0 ? '_self' : '_blank'); }
+      else { document.querySelector(item.action) && document.querySelector(item.action).scrollIntoView({ behavior: 'smooth' }); }
+    }
+    function openPalette() {
+      paletteOverlay.classList.add('open');
+      paletteInput.value = '';
+      filtered = paletteItems.slice();
+      selectedIdx = 0;
+      renderPalette();
+      setTimeout(function() { paletteInput.focus(); }, 30);
+      document.body.style.overflow = 'hidden';
+    }
+    function closePalette() {
+      paletteOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    paletteInput.addEventListener('input', function() {
+      var q = paletteInput.value.trim().toLowerCase();
+      filtered = paletteItems.filter(function(item) {
+        return (item.label + ' ' + item.sub).toLowerCase().indexOf(q) !== -1;
+      });
+      selectedIdx = 0;
+      renderPalette();
+    });
+    paletteOverlay.addEventListener('click', function(e) {
+      if (e.target === paletteOverlay) closePalette();
+    });
+    document.addEventListener('keydown', function(e) {
+      // open with Cmd+K / Ctrl+K
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        paletteOverlay.classList.contains('open') ? closePalette() : openPalette();
+        return;
+      }
+      if (e.key === 'Escape') {
+        if (paletteOverlay.classList.contains('open')) closePalette();
+        if (lightbox.classList.contains('open')) closeLightbox();
+        return;
+      }
+      if (!paletteOverlay.classList.contains('open')) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); selectedIdx = Math.min(selectedIdx + 1, filtered.length - 1); renderPalette(); }
+      if (e.key === 'ArrowUp')   { e.preventDefault(); selectedIdx = Math.max(selectedIdx - 1, 0); renderPalette(); }
+      if (e.key === 'Enter')     { e.preventDefault(); runPaletteItem(selectedIdx); }
+    });
+  </script>
+
+</body>
+</html>
