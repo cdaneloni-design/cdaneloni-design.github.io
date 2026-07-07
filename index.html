@@ -730,6 +730,21 @@
     .edu-degree { font-size: 0.92rem; font-weight: 500; color: var(--text); margin-bottom: 0.2rem; }
     .edu-date { font-size: 0.78rem; color: var(--faint); margin-bottom: 0.85rem; }
     .edu-note { font-size: 0.88rem; color: var(--muted); line-height: 1.7; }
+    .edu-docs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+    .edu-doc-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--accent);
+      background: var(--accent-tint);
+      border: 1px solid rgba(0,113,227,0.2);
+      padding: 0.35rem 0.85rem;
+      border-radius: 980px;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .edu-doc-btn:hover { background: rgba(0,113,227,0.14); border-color: rgba(0,113,227,0.35); transform: translateY(-1px); }
 
     /* ==========================================================
        ACHIEVEMENTS
@@ -1584,6 +1599,16 @@
           <div class="edu-degree">BA International Business</div>
           <div class="edu-date">Sep 2023 &ndash; Apr 2026 &sdot; London, UK</div>
           <div class="edu-note">Graduated with a First. Won two consultancy competitions and co-founded two student societies during this time. Greenwich Business School.</div>
+          <div class="edu-docs">
+            <a href="greenwich-degree-certificate.pdf" target="_blank" rel="noopener" class="edu-doc-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
+              Degree certificate
+            </a>
+            <a href="greenwich-transcript.pdf" target="_blank" rel="noopener" class="edu-doc-btn">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              Transcript
+            </a>
+          </div>
         </div>
 
         <div class="edu-card reveal d2">
