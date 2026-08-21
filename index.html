@@ -500,6 +500,20 @@
       font-weight: 400;
     }
     .about-text p:last-of-type { margin-bottom: 0; }
+    .about-quote {
+      border-left: 3px solid;
+      border-image: var(--grad) 1;
+      padding: 0.4rem 0 0.4rem 1.2rem;
+      margin: 1.6rem 0;
+    }
+    .about-quote p {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text);
+      font-weight: 400;
+      line-height: 1.6;
+      margin: 0 !important;
+    }
     .about-sidebar { display: flex; flex-direction: column; gap: 1.1rem; }
     .about-card {
       background: var(--bg);
@@ -652,7 +666,7 @@
     }
     .timeline-content {
       background: var(--surface);
-      border: 1px solid var(--hairline);
+      border: 1.5px solid var(--hairline-2);
       border-radius: var(--radius);
       padding: 1.5rem 1.8rem;
       box-shadow: var(--shadow-sm);
@@ -707,7 +721,7 @@
     }
     .edu-card {
       background: var(--bg);
-      border: 1px solid var(--hairline);
+      border: 1.5px solid var(--hairline-2);
       border-radius: var(--radius);
       padding: 1.7rem 1.8rem;
       box-shadow: var(--shadow-sm);
@@ -1304,9 +1318,9 @@
       </div>
 
       <h1 class="hero-name reveal d1">
-        International<br>
-        Business &amp;<br>
-        <span class="grad">Strategy.</span>
+        Building at the intersection of<br>
+        Strategy, Technology &amp;<br>
+        <span class="grad">Startups.</span>
       </h1>
 
       <div class="hero-rotator reveal d2">
@@ -1390,6 +1404,10 @@
             September 2026. I'm drawn to strategy, investments, and the early stages of building things.
             I tend to get on with the work rather than talk about it.
           </p>
+
+          <div class="about-quote">
+            <p>"I like entering unfamiliar territory, figuring out how things work, and building something from there."</p>
+          </div>
 
           <div class="map-wrap">
             <div id="arezzo-map"></div>
@@ -1890,7 +1908,7 @@
       var mapEl = document.getElementById('arezzo-map');
       if (!mapEl || typeof L === 'undefined') return;
       try {
-        var map = L.map('arezzo-map', { zoomControl: true, scrollWheelZoom: false }).setView([43.4636, 11.8797], 14);
+        var map = L.map('arezzo-map', { zoomControl: true, scrollWheelZoom: false }).setView([43.4636, 11.8797], 6);
         L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
           attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
           maxZoom: 19
