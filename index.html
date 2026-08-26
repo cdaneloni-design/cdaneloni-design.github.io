@@ -629,6 +629,14 @@
        EXPERIENCE TIMELINE
     ========================================================== */
     #experience { background: var(--bg-alt); }
+    /* per-role accent colors, Apple-system-inspired */
+    .timeline-item.c-blue   { --role-c: #0071e3; --role-tint: rgba(0,113,227,0.10); }
+    .timeline-item.c-purple { --role-c: #5e5ce6; --role-tint: rgba(94,92,230,0.10); }
+    .timeline-item.c-pink   { --role-c: #ff375f; --role-tint: rgba(255,55,95,0.10); }
+    .timeline-item.c-amber  { --role-c: #ff9f0a; --role-tint: rgba(255,159,10,0.12); }
+    .timeline-item.c-teal   { --role-c: #32ade6; --role-tint: rgba(50,173,230,0.10); }
+    .timeline-item.c-green  { --role-c: #30d158; --role-tint: rgba(48,209,88,0.10); }
+
     .timeline { display: flex; flex-direction: column; position: relative; margin-top: 2.8rem; }
     .timeline::before {
       content: '';
@@ -637,8 +645,21 @@
       top: 24px;
       bottom: 24px;
       width: 2px;
-      background: linear-gradient(to bottom, rgba(0,113,227,0.35), rgba(94,92,230,0.2), var(--hairline));
+      background: var(--hairline-2);
       border-radius: 2px;
+    }
+    .timeline-progress {
+      position: absolute;
+      left: 11px;
+      top: 24px;
+      bottom: 24px;
+      width: 2px;
+      background: var(--grad);
+      border-radius: 2px;
+      transform: scaleY(0);
+      transform-origin: top;
+      z-index: 0;
+      will-change: transform;
     }
     .timeline-item {
       display: grid;
@@ -652,17 +673,19 @@
       width: 24px; height: 24px;
       border-radius: 50%;
       background: var(--surface);
-      border: 2px solid var(--hairline-2);
+      border: 2px solid var(--role-c, var(--hairline-2));
       flex-shrink: 0;
       margin-top: 6px;
       z-index: 1;
-      transition: border-color 0.3s, transform 0.3s;
+      transition: border-color 0.3s, transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+      box-shadow: 0 0 0 4px var(--role-tint, transparent);
     }
-    .timeline-item:hover .timeline-dot { border-color: var(--accent); transform: scale(1.1); }
+    .timeline-item.reveal .timeline-dot { transform: scale(0.5); }
+    .timeline-item.reveal.visible .timeline-dot { transform: scale(1); }
+    .timeline-item:hover .timeline-dot { transform: scale(1.15); box-shadow: 0 0 0 7px var(--role-tint, transparent); }
     .timeline-dot.current {
-      background: var(--accent);
-      border-color: var(--accent);
-      box-shadow: 0 0 0 6px rgba(0,113,227,0.12);
+      background: var(--role-c, var(--accent));
+      box-shadow: 0 0 0 6px var(--role-tint, rgba(0,113,227,0.12));
     }
     .timeline-content {
       background: var(--surface);
@@ -670,12 +693,13 @@
       border-radius: var(--radius);
       padding: 1.5rem 1.8rem;
       box-shadow: var(--shadow-sm);
+      border-top: 3px solid var(--role-c, transparent);
       transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     }
     .timeline-item:hover .timeline-content {
       transform: translateY(-3px);
       box-shadow: var(--shadow-md);
-      border-color: rgba(0,113,227,0.2);
+      border-color: var(--role-c, rgba(0,113,227,0.2));
     }
     .timeline-header {
       display: flex;
@@ -689,8 +713,8 @@
     .timeline-date {
       font-size: 0.74rem;
       font-weight: 600;
-      color: var(--accent);
-      background: var(--accent-tint);
+      color: var(--role-c, var(--accent));
+      background: var(--role-tint, var(--accent-tint));
       padding: 0.24rem 0.72rem;
       border-radius: 980px;
       white-space: nowrap;
@@ -703,8 +727,8 @@
     .timeline-tag {
       font-size: 0.72rem;
       font-weight: 500;
-      color: var(--accent-deep);
-      background: var(--accent-tint);
+      color: var(--role-c, var(--accent-deep));
+      background: var(--role-tint, var(--accent-tint));
       padding: 0.2rem 0.62rem;
       border-radius: 980px;
     }
@@ -1341,7 +1365,7 @@
           Get in touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="Carlo-Daneloni-CV.pdf" download class="btn-secondary">
+        <a href="Carlo-Daneloni-CV-2026.pdf" download class="btn-secondary">
           Download CV
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </a>
@@ -1418,13 +1442,6 @@
         </div>
 
         <div class="about-sidebar reveal d1">
-          <div class="current-badge">
-            <span class="badge-label"><span class="live-dot"></span> Right now</span>
-            <strong>Consulting Intern, Blackmont Consulting</strong><br>
-            Working on a live strategy engagement for a chemical company in India.
-            Starting Imperial College London in September 2026.
-          </div>
-
           <div class="about-card">
             <h4>Languages</h4>
             <div class="lang-list">
@@ -1474,19 +1491,20 @@
         A mix of consulting, fundraising, market entry, and hospitality. Each role taught me something different.
       </p>
 
-      <div class="timeline">
+      <div class="timeline" id="timeline">
+        <div class="timeline-progress" id="timelineProgress"></div>
 
-        <div class="timeline-item reveal">
-          <div class="timeline-dot current"></div>
+        <div class="timeline-item reveal c-blue">
+          <div class="timeline-dot"></div>
           <div class="timeline-content">
             <div class="timeline-header">
               <div class="timeline-role">Consulting Intern</div>
-              <span class="timeline-date">May 2026 &ndash; Present</span>
+              <span class="timeline-date">May 2026 &ndash; Aug 2026</span>
             </div>
             <div class="timeline-company">Blackmont Consulting</div>
             <div class="timeline-body">
-              <p>Working on live strategy projects at Blackmont. My main engagement is with a dry chemicals company in India. I'm running market analysis and putting together practical recommendations for the client.</p>
-              <p>The work covers commercial and non-profit projects. It moves fast, and every week you're presenting findings and adjusting to what the client actually needs.</p>
+              <p>Worked on live strategy projects at Blackmont. My main engagement was with a dry chemicals company in India, where I ran market analysis and put together practical recommendations for the client.</p>
+              <p>The work covered commercial and non-profit projects. It moved fast, with weekly presentations of findings and adjustments to what the client actually needed.</p>
             </div>
             <div class="timeline-tags">
               <span class="timeline-tag">Strategy</span>
@@ -1497,7 +1515,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal c-purple">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <div class="timeline-header">
@@ -1518,7 +1536,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal c-pink">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <div class="timeline-header">
@@ -1537,7 +1555,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal c-amber">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <div class="timeline-header">
@@ -1557,7 +1575,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal c-teal">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <div class="timeline-header">
@@ -1576,7 +1594,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item reveal c-green">
           <div class="timeline-dot"></div>
           <div class="timeline-content">
             <div class="timeline-header">
@@ -1861,7 +1879,7 @@
       </div>
       <div class="now-wrap reveal">
         <div class="now-line">
-          <span>&#128205;</span> <strong>Now:</strong>&nbsp;London &middot; Consulting Intern at Blackmont &middot; Imperial MSc from Sep 2026
+          <span>&#128205;</span> <strong>Now:</strong>&nbsp;London &middot; Starting my MSc at Imperial College in September 2026
         </div>
         <div class="now-line">
           <span>&#128214;</span> <strong>Reading:</strong>&nbsp;The Startup Equation &mdash; Steven Fisher &amp; Ja-Na&eacute; Duane
@@ -2017,6 +2035,22 @@
     var toTop = document.getElementById('toTop');
     var sections = document.querySelectorAll('section[id]');
     var navLinks = document.querySelectorAll('.nav-links a');
+    var timelineEl = document.getElementById('timeline');
+    var timelineProgress = document.getElementById('timelineProgress');
+
+    function updateTimelineProgress() {
+      if (!timelineEl || !timelineProgress) return;
+      var rect = timelineEl.getBoundingClientRect();
+      var vh = window.innerHeight;
+      // fraction filled: 0 when timeline top is 80% down the viewport, 1 when timeline bottom reaches 35% up from the bottom
+      var startPoint = vh * 0.8;
+      var endPoint = vh * 0.35;
+      var totalTravel = (rect.height + startPoint - endPoint);
+      var traveled = startPoint - rect.top;
+      var fraction = totalTravel > 0 ? traveled / totalTravel : 0;
+      fraction = Math.max(0, Math.min(1, fraction));
+      timelineProgress.style.transform = 'scaleY(' + fraction + ')';
+    }
 
     window.addEventListener('scroll', function() {
       var y = window.scrollY;
@@ -2033,7 +2067,10 @@
       navLinks.forEach(function(a) {
         a.classList.toggle('active', a.getAttribute('href') === '#' + current);
       });
+      // experience timeline fill
+      updateTimelineProgress();
     }, { passive: true });
+    updateTimelineProgress();
 
     toTop.addEventListener('click', function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2158,7 +2195,7 @@
       { icon: '🏆', label: 'Awards', sub: 'Competitions, recognition, China programme', action: '#achievements' },
       { icon: '🚀', label: 'Projects', sub: 'Enterprise Mobility, FeedEat, web builds', action: '#projects' },
       { icon: '🗺️', label: 'World map', sub: 'Places lived, studied, worked, visited', action: '#worldmap' },
-      { icon: '📄', label: 'Download CV', sub: 'Carlo-Daneloni-CV.pdf', action: 'Carlo-Daneloni-CV.pdf', external: true },
+      { icon: '📄', label: 'Download CV', sub: 'Carlo-Daneloni-CV-2026.pdf', action: 'Carlo-Daneloni-CV-2026.pdf', external: true },
       { icon: '✉️', label: 'Contact', sub: 'Let\'s talk', action: '#contact' },
       { icon: '🔗', label: 'Open LinkedIn', sub: 'linkedin.com/in/carlo-daneloni', action: 'https://www.linkedin.com/in/carlo-daneloni-785540273/', external: true },
       { icon: '📧', label: 'Send an email', sub: 'c.daneloni@gmail.com', action: 'mailto:c.daneloni@gmail.com', external: true }
