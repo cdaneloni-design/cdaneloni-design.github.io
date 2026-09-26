@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carlo Daneloni — International Business &amp; Strategy</title>
-  <meta name="description" content="Carlo Daneloni — International Business & Strategy. First Class Honours at Greenwich, MSc at Imperial College London." />
+  <title>Carlo Daneloni — Strategy, Finance &amp; Growth</title>
+  <meta name="description" content="Carlo Daneloni — Strategy, Finance & Growth. First Class Honours at Greenwich, MSc at Imperial College London." />
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <meta property="og:title" content="Carlo Daneloni — International Business &amp; Strategy" />
-  <meta property="og:description" content="First Class Honours at Greenwich. MSc at Imperial College London. Strategy, consulting, and building things from scratch." />
+  <meta property="og:title" content="Carlo Daneloni — Strategy, Finance &amp; Growth" />
+  <meta property="og:description" content="First Class Honours at Greenwich. MSc at Imperial College London. Strategy, finance, and building things from scratch." />
   <meta property="og:image" content="og-image.jpg" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
@@ -783,6 +783,16 @@
       transition: background 0.2s, border-color 0.2s, transform 0.15s;
     }
     .edu-doc-btn:hover { background: rgba(0,113,227,0.14); border-color: rgba(0,113,227,0.35); transform: translateY(-1px); }
+    .edu-modules { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .module-tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--muted);
+      background: var(--bg-alt);
+      border: 1px solid var(--hairline);
+      padding: 0.2rem 0.62rem;
+      border-radius: 980px;
+    }
 
     /* ==========================================================
        ACHIEVEMENTS
@@ -977,22 +987,6 @@
     .project-link:hover { color: var(--accent-deep); }
     .project-link svg { transition: transform 0.2s; }
     .project-link:hover svg { transform: translateX(3px); }
-
-    /* ==========================================================
-       WORLD MAP
-    ========================================================== */
-    #worldmap { background: var(--surface); border-top: 1px solid var(--hairline); }
-    .map-legend { display: flex; gap: 1.1rem; flex-wrap: wrap; margin: 1.8rem 0 1.2rem; }
-    .legend-chip { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.8rem; color: var(--muted); font-weight: 500; }
-    .legend-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 3px rgba(0,0,0,0.04); }
-    #world-map {
-      height: 480px;
-      border-radius: var(--radius);
-      border: 1px solid var(--hairline);
-      box-shadow: var(--shadow-md);
-      z-index: 1;
-    }
-    .map-count { font-size: 0.82rem; color: var(--faint); margin-top: 1rem; }
 
     /* ==========================================================
        RECOGNITION QUOTE
@@ -1327,7 +1321,6 @@
     <a href="#education" onclick="toggleMenu()">Education</a>
     <a href="#achievements" onclick="toggleMenu()">Awards</a>
     <a href="#projects" onclick="toggleMenu()">Projects</a>
-    <a href="#worldmap" onclick="toggleMenu()">World Map</a>
     <a href="#contact" onclick="toggleMenu()">Contact</a>
   </div>
 
@@ -1338,13 +1331,12 @@
 
     <div class="hero-text">
       <div class="hero-eyebrow reveal">
-        Strategy <span class="hero-dot"></span> Consulting <span class="hero-dot"></span> Imperial College
+        Strategy <span class="hero-dot"></span> Finance <span class="hero-dot"></span> Imperial College
       </div>
 
       <h1 class="hero-name reveal d1">
-        Building at the intersection of<br>
-        Strategy, Technology &amp;<br>
-        <span class="grad">Startups.</span>
+        Strategy, Finance<br>
+        &amp; <span class="grad">Growth.</span>
       </h1>
 
       <div class="hero-rotator reveal d2">
@@ -1365,7 +1357,7 @@
           Get in touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
-        <a href="Carlo-Daneloni-CV-2026.pdf" download class="btn-secondary">
+        <a href="Carlo-Daneloni-CV-Imperial.pdf" download class="btn-secondary">
           Download CV
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         </a>
@@ -1457,6 +1449,20 @@
                 <span class="lang-name">&#127466;&#127480; Spanish</span>
                 <span class="lang-level">Conversational</span>
               </div>
+              <div class="lang-item">
+                <span class="lang-name">&#127464;&#127475; Mandarin</span>
+                <span class="lang-level">Basic</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-card">
+            <h4>Technical Skills</h4>
+            <div class="interest-tags">
+              <span class="interest-tag">Excel &mdash; PivotTables, VLOOKUP, Financial Modelling</span>
+              <span class="interest-tag">Python &amp; Streamlit</span>
+              <span class="interest-tag">Claude API</span>
+              <span class="interest-tag">Claude Code</span>
             </div>
           </div>
 
@@ -1467,8 +1473,10 @@
               <span class="interest-tag">Cooking</span>
               <span class="interest-tag">Music</span>
               <span class="interest-tag">Contemporary art</span>
-              <span class="interest-tag">Mycology</span>
-              <span class="interest-tag">Restoration</span>
+              <span class="interest-tag">Mycology &amp; wild foraging</span>
+              <span class="interest-tag">Restoring vintage motorbikes</span>
+              <span class="interest-tag">Tennis</span>
+              <span class="interest-tag">Solo travel</span>
             </div>
           </div>
 
@@ -1503,14 +1511,14 @@
             </div>
             <div class="timeline-company">Blackmont Consulting</div>
             <div class="timeline-body">
-              <p>Worked on live strategy projects at Blackmont. My main engagement was with a dry chemicals company in India, where I ran market analysis and put together practical recommendations for the client.</p>
-              <p>The work covered commercial and non-profit projects. It moved fast, with weekly presentations of findings and adjustments to what the client actually needed.</p>
+              <p>Built a market-sizing model and ran a McKinsey 7S organisational diagnostic for an India-based specialty chemicals manufacturer, benchmarking six B2B digital platforms and mapping the customer digital journey into a phased transformation roadmap spanning cloud, automation, and AI.</p>
+              <p>Identified a &#8377;50&ndash;52 Cr digitalisation opportunity by sizing the addressable market and modelling three costed transformation scenarios, against a &#8377;8&ndash;10 Cr pre-digital baseline.</p>
             </div>
             <div class="timeline-tags">
               <span class="timeline-tag">Strategy</span>
-              <span class="timeline-tag">Market Analysis</span>
-              <span class="timeline-tag">Chemicals Sector</span>
-              <span class="timeline-tag">Client Delivery</span>
+              <span class="timeline-tag">Market Sizing</span>
+              <span class="timeline-tag">7S Diagnostic</span>
+              <span class="timeline-tag">&#8377;50&ndash;52 Cr Opportunity</span>
             </div>
           </div>
         </div>
@@ -1524,14 +1532,14 @@
             </div>
             <div class="timeline-company">Female Archetypes</div>
             <div class="timeline-body">
-              <p>I ran the grant application process from beginning to end — research, writing, and securing a &pound;10,000 award.</p>
-              <p>Also built a fundraising strategy, mapping VC firms, grant bodies, and angel investor networks that fitted the organisation's mission.</p>
+              <p>Secured a &pound;10,000 award for the organisation by independently leading the end-to-end grant application and proposal process.</p>
+              <p>Mapped the funding landscape across VC firms, private equity funds, grant bodies, and angel investor networks, building a structured investor-targeting database of 48 funding prospects underpinning the fundraising strategy.</p>
             </div>
             <div class="timeline-tags">
               <span class="timeline-tag">Fundraising</span>
               <span class="timeline-tag">Grant Writing</span>
               <span class="timeline-tag">&pound;10,000 secured</span>
-              <span class="timeline-tag">VC Research</span>
+              <span class="timeline-tag">48 Investor Database</span>
             </div>
           </div>
         </div>
@@ -1541,16 +1549,18 @@
           <div class="timeline-content">
             <div class="timeline-header">
               <div class="timeline-role">UK Market Expansion Lead</div>
-              <span class="timeline-date">Oct 2024 &ndash; Feb 2025</span>
+              <span class="timeline-date">Oct 2024 &ndash; Feb 2026</span>
             </div>
             <div class="timeline-company">FeedEat</div>
             <div class="timeline-body">
-              <p>Led the UK launch of an Italian food-tech startup building digital menus for luxury restaurants. Built the go-to-market strategy from scratch, ran demos, and developed a pipeline of restaurant prospects in London.</p>
+              <p>Led the UK launch of an Italian food-tech startup building digital menus for luxury restaurants, executing commercial outreach against founder-set targets of &pound;50,000 revenue and 100 new accounts, and building the tracking dashboard and weekly reporting cadence used to monitor progress.</p>
+              <p>Pitched the product to 10 target restaurants across London, converting 3 into paying clients; findings from the market assessment informed the founders' investment priorities.</p>
             </div>
             <div class="timeline-tags">
               <span class="timeline-tag">Go-to-Market</span>
               <span class="timeline-tag">Business Development</span>
               <span class="timeline-tag">Food Tech</span>
+              <span class="timeline-tag">10 Pitches &rarr; 3 Clients</span>
             </div>
           </div>
         </div>
@@ -1564,12 +1574,12 @@
             </div>
             <div class="timeline-company">Il Borro Relais &amp; Ch&acirc;teaux &mdash; Florence, Italy</div>
             <div class="timeline-body">
-              <p>Il Borro is a five-star Ferragamo estate in Tuscany. I managed the experience for international guests across a multilingual, high-standard environment. The role needed composure, attention to detail, and the ability to read people quickly.</p>
+              <p>Developed relationships with guests through front-of-house, concierge, and F&amp;B operations at a five-star Relais &amp; Ch&acirc;teaux estate, serving up to 300 guests daily (40&ndash;80 covers per shift) as part of a multilingual, high-pressure operations team.</p>
             </div>
             <div class="timeline-tags">
               <span class="timeline-tag">Guest Relations</span>
               <span class="timeline-tag">Luxury Hospitality</span>
-              <span class="timeline-tag">Multilingual</span>
+              <span class="timeline-tag">300 Guests Daily</span>
               <span class="timeline-tag">Ferragamo Group</span>
             </div>
           </div>
@@ -1627,6 +1637,13 @@
           <div class="edu-degree">MSc Economics and Strategy for Business</div>
           <div class="edu-date">September 2026</div>
           <div class="edu-note">One of the top programmes in the UK for students heading into strategy, finance, and consulting. A natural step after graduating First at Greenwich.</div>
+          <div class="edu-modules">
+            <span class="module-tag">Quantitative Data Analysis</span>
+            <span class="module-tag">Corporate Finance</span>
+            <span class="module-tag">Corporate Strategy</span>
+            <span class="module-tag">Economics &amp; Strategy for Innovation</span>
+            <span class="module-tag">Financial Risk</span>
+          </div>
         </div>
 
         <div class="edu-card reveal d1">
@@ -1735,7 +1752,7 @@
           <div class="award-title">Co-Founder, Two Student Societies</div>
           <div class="award-org">University of Greenwich</div>
           <div class="award-date">2023 &ndash; 2026</div>
-          <div class="award-body">Co-founded the International Business Society (Co-President) and held Vice-President at the Italian Society.</div>
+          <div class="award-body">Founded and grew the International Business Society to 200&ndash;300 members (Co-President), driving a 180% increase in event attendance and leading the flagship annual employability event (250+ attendees, 16 industry panellists). As Vice-President of the Italian Society, organised 13 cultural and professional events (40&ndash;80 attendees each) promoting Italian culture and investment opportunities.</div>
           <div class="award-gallery">
             <div class="g-item"><img src="society-1.jpg" alt="Student society event — full audience" loading="lazy" /></div>
             <div class="g-item"><img src="society-2.jpg" alt="Student society event" loading="lazy" /></div>
@@ -1841,25 +1858,6 @@
   </section>
 
 
-  <!-- WORLD MAP -->
-  <section id="worldmap">
-    <div class="section-inner">
-      <span class="section-tag reveal">Around the World</span>
-      <h2 class="section-title reveal">Where I've been</h2>
-      <p class="section-intro reveal">Every pin tells a small part of the story &mdash; places I've lived, studied, worked, and explored.</p>
-
-      <div class="map-legend reveal">
-        <span class="legend-chip"><span class="legend-dot" style="background:#ff9f0a;"></span> Home</span>
-        <span class="legend-chip"><span class="legend-dot" style="background:#30d158;"></span> Worked</span>
-        <span class="legend-chip"><span class="legend-dot" style="background:#bf5af2;"></span> Studied</span>
-        <span class="legend-chip"><span class="legend-dot" style="background:#0071e3;"></span> Visited</span>
-      </div>
-      <div id="world-map" class="reveal"></div>
-      <div class="map-count reveal" id="mapCount"></div>
-    </div>
-  </section>
-
-
   <!-- CONTACT -->
   <section id="contact">
     <div class="section-inner">
@@ -1939,89 +1937,6 @@
         });
         L.marker([43.4636, 11.8797], { icon: icon }).addTo(map).bindPopup('<strong>Arezzo</strong><br>Tuscany, Italy').openPopup();
       } catch(e) { console.warn('Map failed to load', e); }
-    })();
-
-    /* ============ WORLD MAP — places lived, studied, worked, visited ============ */
-    (function() {
-      var el = document.getElementById('world-map');
-      if (!el || typeof L === 'undefined') return;
-      try {
-        var wmap = L.map('world-map', { zoomControl: true, scrollWheelZoom: false, worldCopyJump: true, minZoom: 2 })
-          .setView([34, 20], 2);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          maxZoom: 18
-        }).addTo(wmap);
-
-        var colors = { home: '#ff9f0a', worked: '#30d158', studied: '#bf5af2', visited: '#0071e3' };
-        var places = [
-          // home & worked
-          { n:'Arezzo, Italy', c:'home', lat:43.4636, lng:11.8797, note:'Home — where I grew up. Also worked here (Promode SRL, farm work).' },
-          { n:'Florence, Italy', c:'worked', lat:43.7696, lng:11.2558, note:'Guest Relations at Il Borro Relais & Châteaux.' },
-          { n:'London, UK', c:'worked', lat:51.5072, lng:-0.1276, note:'Studied at Greenwich (First Class Honours) — worked at Blackmont, FeedEat, Female Archetypes. Imperial MSc from Sep 2026.' },
-          // studied
-          { n:'Salamanca, Spain', c:'studied', lat:40.9701, lng:-5.6635, note:'Studied here.' },
-          { n:'Swanage, England', c:'studied', lat:50.6086, lng:-1.9600, note:'Studied here.' },
-          { n:'Worthing, England', c:'studied', lat:50.8123, lng:-0.3712, note:'Studied here.' },
-          { n:'Beijing, China', c:'studied', lat:39.9042, lng:116.4074, note:'UIBE — Chinese Government Mobility Programme, June 2026.' },
-          { n:'Jinan (Shandong), China', c:'studied', lat:36.6512, lng:117.1201, note:'Shandong University — study tour, June 2026.' },
-          // visited — Greece
-          { n:'Kos, Greece', c:'visited', lat:36.8933, lng:27.2889 },
-          { n:'Zakynthos (Zante), Greece', c:'visited', lat:37.7870, lng:20.8999 },
-          { n:'Corfu, Greece', c:'visited', lat:39.6243, lng:19.9217 },
-          { n:'Milos, Greece', c:'visited', lat:36.7472, lng:24.4300 },
-          { n:'Naxos, Greece', c:'visited', lat:37.1036, lng:25.3763 },
-          { n:'Formentera, Spain', c:'visited', lat:38.6979, lng:1.4322 },
-          { n:'Ibiza, Spain', c:'visited', lat:38.9067, lng:1.4206 },
-          { n:'Cagliari, Italy', c:'visited', lat:39.2238, lng:9.1217 },
-          { n:'Olbia, Italy', c:'visited', lat:40.9236, lng:9.4979 },
-          { n:'Donoussa, Greece', c:'visited', lat:37.1055, lng:25.8125 },
-          // visited — Corsica
-          { n:'Bonifacio, Corsica', c:'visited', lat:41.3871, lng:9.1595 },
-          { n:'Porto-Vecchio, Corsica', c:'visited', lat:41.5912, lng:9.2795 },
-          { n:'Bastia, Corsica', c:'visited', lat:42.6977, lng:9.4500 },
-          // visited — Spain
-          { n:'Valencia, Spain', c:'visited', lat:39.4699, lng:-0.3763 },
-          { n:'Seville, Spain', c:'visited', lat:37.3891, lng:-5.9845 },
-          { n:'Barcelona, Spain', c:'visited', lat:41.3874, lng:2.1686 },
-          { n:'Madrid, Spain', c:'visited', lat:40.4168, lng:-3.7038 },
-          // visited — elsewhere
-          { n:'Paris, France', c:'visited', lat:48.8566, lng:2.3522 },
-          { n:'Istanbul, Türkiye', c:'visited', lat:41.0082, lng:28.9784 },
-          { n:'Morocco', c:'visited', lat:31.6295, lng:-7.9811 },
-          { n:'Zanzibar, Tanzania', c:'visited', lat:-6.1659, lng:39.1988 },
-          { n:'Maldives', c:'visited', lat:3.2028, lng:73.2207 },
-          { n:'Scotland, UK', c:'visited', lat:56.4907, lng:-4.2026 },
-          { n:'Switzerland', c:'visited', lat:46.8182, lng:8.2275 },
-          // visited — Italy
-          { n:'Sicily, Italy', c:'visited', lat:37.5999, lng:14.0154 },
-          { n:'Puglia, Italy', c:'visited', lat:40.7928, lng:17.1012 },
-          { n:'Naples, Italy', c:'visited', lat:40.8518, lng:14.2681 },
-          { n:'Rome, Italy', c:'visited', lat:41.8933, lng:12.4829 },
-          { n:'Bologna, Italy', c:'visited', lat:44.4949, lng:11.3426 },
-          { n:'Milan, Italy', c:'visited', lat:45.4642, lng:9.1900 },
-          { n:'Venice, Italy', c:'visited', lat:45.4408, lng:12.3155 }
-        ];
-
-        var labels = { home: 'Home', worked: 'Worked', studied: 'Studied', visited: 'Visited' };
-        places.forEach(function(p) {
-          var big = (p.c !== 'visited');
-          var size = big ? 16 : 12;
-          var icon = L.divIcon({
-            html: '<div style="background:' + colors[p.c] + ';width:' + size + 'px;height:' + size + 'px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',
-            className: '',
-            iconSize: [size, size],
-            iconAnchor: [size/2, size/2]
-          });
-          var html = '<strong>' + p.n + '</strong><br><span style="color:' + colors[p.c] + ';font-weight:600;font-size:0.78rem;">' + labels[p.c] + '</span>' + (p.note ? '<br><span style="font-size:0.8rem;">' + p.note + '</span>' : '');
-          L.marker([p.lat, p.lng], { icon: icon }).addTo(wmap).bindPopup(html);
-        });
-
-        var counts = {};
-        places.forEach(function(p) { counts[p.c] = (counts[p.c] || 0) + 1; });
-        var countEl = document.getElementById('mapCount');
-        if (countEl) countEl.textContent = places.length + ' places pinned — ' + (counts.visited || 0) + ' visited, ' + (counts.studied || 0) + ' studied, ' + (counts.worked || 0) + ' worked, and 1 place called home.';
-      } catch(e) { console.warn('World map failed to load', e); }
     })();
 
     /* ============ NAV ============ */
@@ -2128,6 +2043,7 @@
       if (!el) return;
       var phrases = [
         'Strategy consulting.',
+        'Finance & investment analysis.',
         'Market entry & go-to-market.',
         'Fundraising & venture capital.',
         'Building things from scratch.'
@@ -2194,8 +2110,7 @@
       { icon: '🎓', label: 'Education', sub: 'Imperial, Greenwich, Kaplan', action: '#education' },
       { icon: '🏆', label: 'Awards', sub: 'Competitions, recognition, China programme', action: '#achievements' },
       { icon: '🚀', label: 'Projects', sub: 'Enterprise Mobility, FeedEat, web builds', action: '#projects' },
-      { icon: '🗺️', label: 'World map', sub: 'Places lived, studied, worked, visited', action: '#worldmap' },
-      { icon: '📄', label: 'Download CV', sub: 'Carlo-Daneloni-CV-2026.pdf', action: 'Carlo-Daneloni-CV-2026.pdf', external: true },
+      { icon: '📄', label: 'Download CV', sub: 'Carlo-Daneloni-CV-Imperial.pdf', action: 'Carlo-Daneloni-CV-Imperial.pdf', external: true },
       { icon: '✉️', label: 'Contact', sub: 'Let\'s talk', action: '#contact' },
       { icon: '🔗', label: 'Open LinkedIn', sub: 'linkedin.com/in/carlo-daneloni', action: 'https://www.linkedin.com/in/carlo-daneloni-785540273/', external: true },
       { icon: '📧', label: 'Send an email', sub: 'c.daneloni@gmail.com', action: 'mailto:c.daneloni@gmail.com', external: true }
