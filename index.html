@@ -12,8 +12,6 @@
   <meta property="og:image" content="og-image.jpg" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary_large_image" />
-  <!-- Leaflet for the map -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <style>
     /* ==========================================================
        APPLE-STYLE LIGHT DESIGN SYSTEM
@@ -606,24 +604,43 @@
       70% { box-shadow: 0 0 0 8px rgba(48,209,88,0); }
       100% { box-shadow: 0 0 0 0 rgba(48,209,88,0); }
     }
-    .map-wrap {
-      margin-top: 2.2rem;
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid var(--hairline);
-      box-shadow: var(--shadow-md);
+
+    /* ==========================================================
+       STRENGTHS
+    ========================================================== */
+    #strengths { background: var(--bg-alt); }
+    .strengths-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.8rem;
     }
-    #arezzo-map { height: 240px; width: 100%; display: block; z-index: 1; }
-    .map-label {
+    .strength-card {
       background: var(--surface);
-      border-top: 1px solid var(--hairline);
-      padding: 0.6rem 1rem;
-      font-size: 0.8rem;
-      color: var(--muted);
+      border: 1.5px solid var(--hairline-2);
+      border-radius: var(--radius);
+      padding: 1.7rem 1.6rem;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    }
+    .strength-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(0,113,227,0.25);
+    }
+    .strength-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: var(--grad);
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 1.1rem;
+      box-shadow: 0 6px 16px rgba(0,113,227,0.25);
     }
+    .strength-title { font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-bottom: 0.55rem; }
+    .strength-proof { font-size: 0.85rem; color: var(--muted); line-height: 1.65; }
 
     /* ==========================================================
        EXPERIENCE TIMELINE
@@ -803,6 +820,7 @@
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 1.2rem;
       margin-top: 2.8rem;
+      align-items: start;
     }
     .award-card {
       background: var(--surface);
@@ -1345,7 +1363,7 @@
 
       <p class="hero-desc reveal d2">
         From Arezzo, Italy. First Class Honours in International Business at Greenwich.
-        Now reading for an MSc at Imperial College London.
+        Now studying for an MSc at Imperial College London.
       </p>
 
       <div class="hero-quote reveal d3">
@@ -1416,20 +1434,13 @@
             a full consultancy project for Enterprise Mobility.
           </p>
           <p>
-            I'm now reading for an MSc in Economics and Strategy for Business at Imperial College London,
+            I'm now studying for an MSc in Economics and Strategy for Business at Imperial College London,
             having started in September 2026. I'm drawn to strategy, investments, and the early stages of building things.
             I tend to get on with the work rather than talk about it.
           </p>
 
           <div class="about-quote">
             <p>"I like entering unfamiliar territory, figuring out how things work, and building something from there."</p>
-          </div>
-
-          <div class="map-wrap">
-            <div id="arezzo-map"></div>
-            <div class="map-label">
-              <span>&#128205;</span> Arezzo, Tuscany, Italy &mdash; where I grew up
-            </div>
           </div>
         </div>
 
@@ -1484,6 +1495,39 @@
             <img src="about-iflytek.jpg" alt="Carlo visiting iFLYTEK headquarters in China" loading="lazy" />
             <div class="about-photo-caption">Visiting iFLYTEK's headquarters &mdash; China study tour, June 2026.</div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- STRENGTHS -->
+  <section id="strengths">
+    <div class="section-inner">
+      <span class="section-tag reveal">What I Bring</span>
+      <h2 class="section-title reveal">Core strengths</h2>
+      <p class="section-intro reveal">Less about credentials, more about how I actually work.</p>
+
+      <div class="strengths-grid">
+        <div class="strength-card reveal">
+          <div class="strength-icon">&#9889;</div>
+          <div class="strength-title">Bias to Action</div>
+          <div class="strength-proof">Pitched 10 restaurants and converted 3 into paying clients at FeedEat; ran a grant process solo from first draft to a &pound;10,000 award.</div>
+        </div>
+        <div class="strength-card reveal d1">
+          <div class="strength-icon">&#128202;</div>
+          <div class="strength-title">Quantitative &amp; Analytical</div>
+          <div class="strength-proof">Built market-sizing models and a &#8377;50&ndash;52 Cr opportunity case at Blackmont; built an AI-powered benchmarking tool with Python, Streamlit, and the Claude API.</div>
+        </div>
+        <div class="strength-card reveal d2">
+          <div class="strength-icon">&#127760;</div>
+          <div class="strength-title">Cross-Cultural Operator</div>
+          <div class="strength-proof">Worked across Italy, the UK, India, and China; ran multilingual guest relations for up to 300 guests a day at a five-star estate.</div>
+        </div>
+        <div class="strength-card reveal d3">
+          <div class="strength-icon">&#128736;&#65039;</div>
+          <div class="strength-title">Builder, Not Just Talker</div>
+          <div class="strength-proof">Grew a student society from scratch to 200&ndash;300 members and a 180% jump in attendance; I get on with the work rather than talk about it.</div>
         </div>
       </div>
     </div>
@@ -1877,7 +1921,7 @@
       </div>
       <div class="now-wrap reveal">
         <div class="now-line">
-          <span>&#128205;</span> <strong>Now:</strong>&nbsp;London &middot; Reading for my MSc at Imperial College London
+          <span>&#128205;</span> <strong>Now:</strong>&nbsp;London &middot; Studying for my MSc at Imperial College London
         </div>
         <div class="now-line">
           <span>&#128214;</span> <strong>Reading:</strong>&nbsp;The Startup Equation &mdash; Steven Fisher &amp; Ja-Na&eacute; Duane
@@ -1914,30 +1958,8 @@
   </button>
 
 
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <!-- SCRIPTS -->
   <script>
-    /* ============ MAP — light Apple-like tiles ============ */
-    (function() {
-      var mapEl = document.getElementById('arezzo-map');
-      if (!mapEl || typeof L === 'undefined') return;
-      try {
-        var map = L.map('arezzo-map', { zoomControl: true, scrollWheelZoom: false }).setView([43.4636, 11.8797], 6);
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-          maxZoom: 19
-        }).addTo(map);
-        var icon = L.divIcon({
-          html: '<div style="background:#0071e3;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 8px rgba(0,0,0,0.35);"></div>',
-          className: '',
-          iconSize: [14, 14],
-          iconAnchor: [7, 7]
-        });
-        L.marker([43.4636, 11.8797], { icon: icon }).addTo(map).bindPopup('<strong>Arezzo</strong><br>Tuscany, Italy').openPopup();
-      } catch(e) { console.warn('Map failed to load', e); }
-    })();
 
     /* ============ NAV ============ */
     function toggleMenu() {
@@ -2106,6 +2128,7 @@
     var paletteList = document.getElementById('paletteList');
     var paletteItems = [
       { icon: '👋', label: 'About', sub: 'Where I\'m from and what made me', action: '#about' },
+      { icon: '⚡', label: 'Core Strengths', sub: 'What I bring to the table', action: '#strengths' },
       { icon: '💼', label: 'Experience', sub: 'Consulting, fundraising, market entry', action: '#experience' },
       { icon: '🎓', label: 'Education', sub: 'Imperial, Greenwich, Kaplan', action: '#education' },
       { icon: '🏆', label: 'Awards', sub: 'Competitions, recognition, China programme', action: '#achievements' },
