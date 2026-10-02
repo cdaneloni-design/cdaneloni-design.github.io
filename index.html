@@ -553,8 +553,20 @@
       cursor: default;
     }
     .interest-tag:hover { background: var(--accent-tint); border-color: rgba(0,113,227,0.3); color: var(--accent-deep); }
-    .about-photo { padding: 0; overflow: hidden; }
-    .about-photo img {
+    .about-photo { padding: 0; overflow: hidden; position: relative; }
+    .about-photo-track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .about-photo-track::-webkit-scrollbar { display: none; }
+    .about-photo-slide {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+    }
+    .about-photo-slide img {
       width: 100%;
       height: 280px;
       object-fit: cover;
@@ -562,14 +574,53 @@
       cursor: zoom-in;
       transition: transform 0.4s ease;
     }
-    .about-photo img:hover { transform: scale(1.03); }
+    .about-photo-slide img:hover { transform: scale(1.03); }
     .about-photo-caption {
       padding: 0.7rem 1.1rem;
       font-size: 0.78rem;
       color: var(--muted);
       border-top: 1px solid var(--hairline);
       background: var(--surface);
+      min-height: 2.6em;
     }
+    .about-photo-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--hairline);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 0.85rem;
+      z-index: 2;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .about-photo-nav:hover { background: #fff; transform: translateY(-50%) scale(1.08); }
+    .about-photo-nav.prev { left: 0.6rem; }
+    .about-photo-nav.next { right: 0.6rem; }
+    .about-photo-dots {
+      position: absolute;
+      top: 0.7rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 0.35rem;
+      z-index: 2;
+    }
+    .about-photo-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid rgba(0,0,0,0.15);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .about-photo-dot.active { background: var(--accent); border-color: var(--accent); transform: scale(1.2); }
     .current-badge {
       background: var(--grad-soft);
       border: 1px solid rgba(0,113,227,0.18);
@@ -1502,8 +1553,24 @@
           </div>
 
           <div class="about-card about-photo">
-            <img src="about-iflytek.jpg" alt="Carlo visiting iFLYTEK headquarters in China" loading="lazy" />
-            <div class="about-photo-caption">Visiting iFLYTEK's headquarters &mdash; China study tour, June 2026.</div>
+            <div class="about-photo-dots" id="aboutPhotoDots"></div>
+            <div class="about-photo-nav prev" id="aboutPhotoPrev" aria-label="Previous photo">&#8249;</div>
+            <div class="about-photo-nav next" id="aboutPhotoNext" aria-label="Next photo">&#8250;</div>
+            <div class="about-photo-track" id="aboutPhotoTrack">
+              <div class="about-photo-slide">
+                <img src="about-iflytek.jpg" alt="Carlo visiting iFLYTEK headquarters in China" loading="lazy" />
+              </div>
+              <div class="about-photo-slide">
+                <img src="embassy-speaking.jpg" alt="Speaking at the Chinese Embassy in London" loading="lazy" />
+              </div>
+              <div class="about-photo-slide">
+                <img src="embassy-cctv-interview.jpg" alt="Interviewed live by CCTV at the Chinese Embassy" loading="lazy" />
+              </div>
+              <div class="about-photo-slide">
+                <img src="embassy-ambassador.jpg" alt="With the Chinese Ambassador at the Embassy reception" loading="lazy" />
+              </div>
+            </div>
+            <div class="about-photo-caption" id="aboutPhotoCaption">Visiting iFLYTEK's headquarters &mdash; China study tour, June 2026.</div>
           </div>
         </div>
       </div>
@@ -2146,6 +2213,50 @@
       lightbox.classList.remove('open');
       document.body.style.overflow = '';
     }
+
+    /* ============ ABOUT PHOTO CAROUSEL ============ */
+    (function() {
+      var track = document.getElementById('aboutPhotoTrack');
+      var captionEl = document.getElementById('aboutPhotoCaption');
+      var dotsEl = document.getElementById('aboutPhotoDots');
+      var prevBtn = document.getElementById('aboutPhotoPrev');
+      var nextBtn = document.getElementById('aboutPhotoNext');
+      if (!track) return;
+      var captions = [
+        'Visiting iFLYTEK\'s headquarters — China study tour, June 2026.',
+        'Speaking at the Chinese Embassy in London, representing the China-UK Youth Mobility Programme.',
+        'Interviewed live by CCTV about my experience in China.',
+        'With the Chinese Ambassador at the Embassy reception, London.'
+      ];
+      var slides = track.querySelectorAll('.about-photo-slide');
+      captions.forEach(function(c, i) {
+        var dot = document.createElement('div');
+        dot.className = 'about-photo-dot' + (i === 0 ? ' active' : '');
+        dot.addEventListener('click', function() {
+          track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+        });
+        dotsEl.appendChild(dot);
+      });
+      var dots = dotsEl.querySelectorAll('.about-photo-dot');
+      function updateActive() {
+        var idx = Math.round(track.scrollLeft / track.clientWidth);
+        idx = Math.max(0, Math.min(idx, captions.length - 1));
+        captionEl.textContent = captions[idx];
+        dots.forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+      }
+      track.addEventListener('scroll', function() {
+        window.requestAnimationFrame(updateActive);
+      }, { passive: true });
+      prevBtn.addEventListener('click', function() {
+        track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' });
+      });
+      nextBtn.addEventListener('click', function() {
+        track.scrollBy({ left: track.clientWidth, behavior: 'smooth' });
+      });
+      window.addEventListener('resize', function() {
+        track.scrollTo({ left: track.clientWidth * Math.round(track.scrollLeft / track.clientWidth) });
+      });
+    })();
 
     /* ============ COMMAND PALETTE (⌘K) ============ */
     var paletteOverlay = document.getElementById('paletteOverlay');
